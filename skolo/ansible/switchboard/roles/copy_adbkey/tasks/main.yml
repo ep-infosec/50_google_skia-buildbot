@@ -1,0 +1,38 @@
+- name:
+    make temporary directory for adb files and trigger `clean_up_tempfile`
+    handler for cleanup.
+  delegate_to: 127.0.0.1
+  tempfile:
+    state: directory
+  register: adbkey
+  notify: clean_up_tempfile
+
+- name: Extract adbkey
+  delegate_to: 127.0.0.1
+  command:
+    argv:
+      - '{{ all.repo_root }}/kube/secrets/get-secret-at-path.sh'
+      - etc
+      - skia-rpi-adb-key
+      - '.data."adbkey"'
+      - '{{ adbkey.path }}/adbkey'
+    creates: '{{ adbkey.path }}/adbkey'
+
+- name: Extract adbkey.pub
+  delegate_to: 127.0.0.1
+  command:
+    argv:
+      - '{{ all.repo_root }}/kube/secrets/get-secret-at-path.sh'
+      - etc
+      - skia-rpi-adb-key
+      - '.data."adbkey.pub"'
+      - '{{ adbkey.path }}/adbkey.pub'
+    creates: '{{ adbkey.path }}/adbkey.pub'
+
+- name: Copy adbkey files
+  copy:
+    src: '{{ adbkey.path }}/'
+    dest: /home/{{ skolo_account }}/.android/
+    owner: '{{ skolo_account }}'
+    group: '{{ skolo_group }}'
+    mode: '0644'

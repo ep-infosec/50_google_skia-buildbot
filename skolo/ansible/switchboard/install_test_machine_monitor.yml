@@ -1,0 +1,23 @@
+# Installs test_machine_monitor.
+#
+# To push a test/debug version of test_machine_monitor to a machine you can
+# provide a value for the test_machine_monitor_version via the
+# --extra-vars command line parameter. See README.md for an example.
+- hosts: switchboard_rpis,all_linux,all_mac,all_win
+  user: chrome-bot
+  gather_facts: true
+  vars:
+    restart: false
+
+  roles:
+    - install_test_machine_monitor
+
+  tasks:
+    - name: Reboot Windows host.
+      win_reboot:
+      when: restart and ansible_facts['system']|lower in ['win32nt']
+
+    - name: Reboot non-Windows host.
+      become: true
+      reboot:
+      when: restart and ansible_facts['system']|lower not in ['win32nt']

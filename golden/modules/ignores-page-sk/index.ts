@@ -1,0 +1,1 @@
+import './ignores-page-sk';

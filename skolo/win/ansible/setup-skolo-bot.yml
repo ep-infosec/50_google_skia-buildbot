@@ -1,0 +1,23 @@
+# Do all the things to set up a Skolo bot. See win-02-hosts for an example command.
+# Enable auto-login.
+- import_playbook: skolo-settings.yml
+# Disable things that make installing software slow.
+- import_playbook: swarming-bot-settings.yml
+# Install the VNC server to make debugging later steps easier.
+- import_playbook: vnc-server.yml
+# Install the SSH server to make debugging even easier.
+- import_playbook: ssh.yml
+# Install Python before drivers so we can detect hardware using PyWin32. (We don't do this now, but
+# hopefully we will in the future.)
+- import_playbook: python.yml
+# For eGPUs, install TB3 drivers first.
+- import_playbook: egpu-lenovo-drivers.yml
+# Install graphics drivers.
+- import_playbook: intel-graphics-driver-broadwell.yml
+- import_playbook: intel-graphics-driver-skylake.yml
+- import_playbook: nvidia-graphics-driver.yml
+- import_playbook: radeon-graphics-driver.yml
+# Prep for Swarming.
+- import_playbook: skolo-credentials.yml
+# Start Swarming. Must be last, since the bot will start running tasks after this.
+- import_playbook: bootstrap-swarming.yml

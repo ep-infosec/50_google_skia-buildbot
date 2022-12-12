@@ -1,0 +1,13 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "isolate",
+    srcs = ["isolate.go"],
+    importpath = "go.skia.org/infra/go/isolate",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//go/exec",
+        "//go/skerr",
+        "//go/util",
+    ],
+)

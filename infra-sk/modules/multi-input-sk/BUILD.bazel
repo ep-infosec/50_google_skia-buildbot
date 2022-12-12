@@ -1,0 +1,56 @@
+load("//infra-sk:index.bzl", "karma_test", "sk_demo_page_server", "sk_element", "sk_element_puppeteer_test", "sk_page")
+
+sk_demo_page_server(
+    name = "demo_page_server",
+    sk_page = ":multi-input-sk-demo",
+)
+
+sk_element(
+    name = "multi-input-sk",
+    sass_deps = [
+        "@npm//:node_modules/elements-sk/themes/color-palette.scss",
+        "@npm//:node_modules/elements-sk/themes/themes.scss",
+    ],
+    sass_srcs = ["multi-input-sk.scss"],
+    ts_deps = [
+        "//infra-sk/modules/ElementSk:index_ts_lib",
+        "@npm//common-sk",
+        "@npm//elements-sk",
+        "@npm//lit-html",
+    ],
+    ts_srcs = [
+        "index.ts",
+        "multi-input-sk.ts",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+sk_page(
+    name = "multi-input-sk-demo",
+    html_file = "multi-input-sk-demo.html",
+    sk_element_deps = [":multi-input-sk"],
+    ts_entry_point = "multi-input-sk-demo.ts",
+)
+
+sk_element_puppeteer_test(
+    name = "multi-input-sk_puppeteer_test",
+    src = "multi-input-sk_puppeteer_test.ts",
+    sk_demo_page_server = ":demo_page_server",
+    deps = [
+        "//puppeteer-tests:util_ts_lib",
+        "@npm//@types/chai",
+        "@npm//chai",
+    ],
+)
+
+karma_test(
+    name = "multi-input-sk_test",
+    src = "multi-input-sk_test.ts",
+    deps = [
+        ":multi-input-sk",
+        "//infra-sk/modules:test_util_ts_lib",
+        "@npm//@types/chai",
+        "@npm//chai",
+        "@npm//common-sk",
+    ],
+)

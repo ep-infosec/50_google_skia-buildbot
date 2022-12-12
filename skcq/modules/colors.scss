@@ -1,0 +1,21 @@
+/* Common Tree status colors via CSS Variables.
+
+  Can be imported via:
+
+    @import '../colors';
+*/
+
+@import '../../infra-sk/themes';
+
+.body-sk {
+  --attempt-background: #4f4f4f;
+
+  --failed: var(--failure-alpha);
+  --waiting: var(--warning-alpha);
+  --success: var(--success-alpha);
+
+  .darkmode {
+    --on-primary: var(--white);
+    --attempt-background: var(--dark-white);
+  }
+}

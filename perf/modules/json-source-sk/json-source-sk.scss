@@ -1,0 +1,22 @@
+json-source-sk {
+  spinner-sk {
+    width: 16px;
+    height: 16px;
+    border-width: 4px;
+  }
+
+  #controls {
+    display: flex;
+    align-items: center;
+  }
+
+  pre {
+    margin: 8px;
+    padding: 8px;
+  }
+
+  button {
+    text-transform: none;
+    padding: 8px;
+  }
+}

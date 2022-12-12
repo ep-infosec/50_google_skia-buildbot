@@ -1,0 +1,51 @@
+load("//infra-sk:index.bzl", "sk_demo_page_server", "sk_element", "sk_element_puppeteer_test", "sk_page")
+
+sk_demo_page_server(
+    name = "demo_page_server",
+    sk_page = ":textarea-numbers-sk-demo",
+)
+
+sk_element(
+    name = "textarea-numbers-sk",
+    sass_deps = [
+        "//fiddlek/modules/themes:themes_sass_lib",
+        "@npm//:node_modules/codemirror5/addon/fold/foldgutter.css",
+        "@npm//:node_modules/codemirror5/lib/codemirror.css",
+        "@npm//:node_modules/codemirror5/theme/base16-dark.css",
+        "@npm//:node_modules/codemirror5/theme/base16-light.css",
+    ],
+    sass_srcs = ["textarea-numbers-sk.scss"],
+    sk_element_deps = ["//infra-sk/modules/theme-chooser-sk"],
+    ts_deps = [
+        "//infra-sk/modules/ElementSk:index_ts_lib",
+        "@npm//elements-sk",
+        "@npm//codemirror5",
+        "@npm//@types/codemirror5",
+    ],
+    ts_srcs = [
+        "index.ts",
+        "textarea-numbers-sk.ts",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+sk_page(
+    name = "textarea-numbers-sk-demo",
+    html_file = "textarea-numbers-sk-demo.html",
+    sk_element_deps = [
+        ":textarea-numbers-sk",
+        "//infra-sk/modules/theme-chooser-sk",
+    ],
+    ts_entry_point = "textarea-numbers-sk-demo.ts",
+)
+
+sk_element_puppeteer_test(
+    name = "textarea-numbers-sk_puppeteer_test",
+    src = "textarea-numbers-sk_puppeteer_test.ts",
+    sk_demo_page_server = ":demo_page_server",
+    deps = [
+        "//puppeteer-tests:util_ts_lib",
+        "@npm//@types/chai",
+        "@npm//chai",
+    ],
+)

@@ -1,0 +1,71 @@
+load("//infra-sk:index.bzl", "karma_test", "sk_demo_page_server", "sk_element", "sk_element_puppeteer_test", "sk_page")
+
+sk_element(
+    name = "binary-page-sk",
+    sass_srcs = ["binary-page-sk.scss"],
+    sk_element_deps = [
+        "//codesize/modules/codesize-scaffold-sk",
+        "//infra-sk/modules/human-date-sk",
+        "//infra-sk/modules/theme-chooser-sk",
+    ],
+    ts_deps = [
+        "//codesize/modules:rpc_types_ts_lib",
+        "//infra-sk/modules/ElementSk:index_ts_lib",
+        "@npm//@google-web-components/google-chart",
+        # Provides types for the @google-web-components/google-chart import, which does not follow
+        # the import naming convention expected by the Gazelle front-end extension, and thus needs
+        # to be added manually.
+        "@npm//@types/google.visualization",  # keep
+        "@npm//common-sk",
+        "@npm//elements-sk",
+        "@npm//lit-html",
+        "@npm//fuse.js",
+    ],
+    ts_srcs = [
+        "binary-page-sk.ts",
+        "index.ts",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+sk_page(
+    name = "binary-page-sk-demo",
+    html_file = "binary-page-sk-demo.html",
+    sk_element_deps = [
+        ":binary-page-sk",
+        "//codesize/modules/codesize-scaffold-sk",
+    ],
+    ts_deps = [
+        "//codesize/modules:rpc_types_ts_lib",
+        "@npm//fetch-mock",
+    ],
+    ts_entry_point = "binary-page-sk-demo.ts",
+)
+
+sk_element_puppeteer_test(
+    name = "binary-page-sk_puppeteer_test",
+    src = "binary-page-sk_puppeteer_test.ts",
+    sk_demo_page_server = ":demo_page_server",
+    deps = [
+        "//codesize/modules/codesize-scaffold-sk:events_ts_lib",
+        "//puppeteer-tests:util_ts_lib",
+        "@npm//@types/chai",
+        "@npm//chai",
+    ],
+)
+
+sk_demo_page_server(
+    name = "demo_page_server",
+    sk_page = ":binary-page-sk-demo",
+)
+
+karma_test(
+    name = "binary-page-sk_test",
+    src = "binary-page-sk_test.ts",
+    deps = [
+        ":binary-page-sk",
+        "//codesize/modules:rpc_types_ts_lib",
+        "@npm//@types/chai",
+        "@npm//chai",
+    ],
+)

@@ -1,0 +1,10 @@
+build
+ideviceinstaller
+ifuse
+libimobiledevice
+libimobiledevice-glue
+libplist
+libusbmuxd
+usbmuxd
+out
+assets

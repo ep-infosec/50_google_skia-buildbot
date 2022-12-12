@@ -1,0 +1,6 @@
+- name: restart_collectd
+  become: true
+  systemd:
+    enabled: true
+    state: restarted
+    name: collectd

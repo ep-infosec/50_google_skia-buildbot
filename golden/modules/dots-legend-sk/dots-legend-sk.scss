@@ -1,0 +1,28 @@
+@import '../colors';
+
+dots-legend-sk {
+  display: inline-grid;
+  grid-template-columns: auto auto auto auto;
+  align-items: center;
+  column-gap: 10px;
+
+  div.dot {
+    border-radius: 50%;
+    display: inline-block;
+    width: 4px;
+    height: 4px;
+    border: solid 2px;
+  }
+
+  .negative-icon {
+    fill: var(--triaged-negative);
+  }
+
+  .positive-icon {
+    fill: var(--triaged-positive);
+  }
+
+  .untriaged-icon {
+    fill: var(--untriaged);
+  }
+}

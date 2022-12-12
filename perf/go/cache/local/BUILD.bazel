@@ -1,0 +1,24 @@
+load("//bazel/go:go_test.bzl", "go_test")
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "local",
+    srcs = ["local.go"],
+    importpath = "go.skia.org/infra/perf/go/cache/local",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//go/skerr",
+        "//perf/go/cache",
+        "@com_github_hashicorp_golang_lru//:golang-lru",
+    ],
+)
+
+go_test(
+    name = "local_test",
+    srcs = ["local_test.go"],
+    embed = [":local"],
+    deps = [
+        "@com_github_stretchr_testify//assert",
+        "@com_github_stretchr_testify//require",
+    ],
+)

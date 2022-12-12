@@ -1,0 +1,20 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "shared_tests",
+    srcs = ["shared_tests.go"],
+    importpath = "go.skia.org/infra/go/git/repograph/shared_tests",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//bazel/external/cipd/git",
+        "//go/deepequal/assertdeep",
+        "//go/git",
+        "//go/git/repograph",
+        "//go/git/testutils",
+        "//go/sktest",
+        "//go/testutils",
+        "//go/util",
+        "//go/vcsinfo",
+        "@com_github_stretchr_testify//require",
+    ],
+)

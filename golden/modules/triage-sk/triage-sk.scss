@@ -1,0 +1,35 @@
+@import '../colors';
+@import 'node_modules/elements-sk/colors.scss';
+
+triage-sk {
+  display: inline-block;
+
+  button {
+    min-width: 0;
+    padding: 0.6em;
+
+    &.selected {
+      background-color: var(--dark-white);
+      border-color: var(--dark-white);
+      box-shadow: none;
+    }
+
+    &.positive {
+      &.selected check-circle-icon-sk {
+        fill: var(--triaged-positive);
+      }
+    }
+
+    &.negative {
+      &.selected cancel-icon-sk {
+        fill: var(--triaged-negative);
+      }
+    }
+
+    &.untriaged {
+      &.selected help-icon-sk {
+        fill: var(--untriaged);
+      }
+    }
+  }
+}

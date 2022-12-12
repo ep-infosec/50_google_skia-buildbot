@@ -1,0 +1,20 @@
+load("//bazel/go:go_test.bzl", "go_test")
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "filter",
+    srcs = ["filter.go"],
+    importpath = "go.skia.org/infra/perf/go/ingest/filter",
+    visibility = ["//visibility:public"],
+    deps = ["//go/skerr"],
+)
+
+go_test(
+    name = "filter_test",
+    srcs = ["filter_test.go"],
+    embed = [":filter"],
+    deps = [
+        "@com_github_stretchr_testify//assert",
+        "@com_github_stretchr_testify//require",
+    ],
+)

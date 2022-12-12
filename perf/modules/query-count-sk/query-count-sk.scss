@@ -1,0 +1,18 @@
+query-count-sk {
+  display: inline-block;
+
+  span {
+    line-height: 2em;
+  }
+
+  div {
+    display: flex;
+    align-items: center;
+  }
+
+  spinner-sk {
+    width: 8px;
+    height: 8px;
+    border-width: 3px;
+  }
+}

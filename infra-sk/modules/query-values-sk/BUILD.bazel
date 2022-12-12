@@ -1,0 +1,59 @@
+load("//infra-sk:index.bzl", "karma_test", "sk_demo_page_server", "sk_element", "sk_page", "ts_library")
+
+sk_demo_page_server(
+    name = "demo_page_server",
+    sk_page = ":query-values-sk-demo",
+)
+
+sk_element(
+    name = "query-values-sk",
+    sass_deps = [
+        "@npm//:node_modules/elements-sk/checkbox-sk/checkbox-sk.scss",
+        "@npm//:node_modules/elements-sk/multi-select-sk/multi-select-sk.scss",
+        "@npm//:node_modules/elements-sk/themes/color-palette.scss",
+        "@npm//:node_modules/elements-sk/themes/themes.scss",
+    ],
+    sass_srcs = ["query-values-sk.scss"],
+    ts_deps = [
+        "//infra-sk/modules/ElementSk:index_ts_lib",
+        "@npm//elements-sk",
+        "@npm//lit-html",
+    ],
+    ts_srcs = [
+        "index.ts",
+        "query-values-sk.ts",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+sk_page(
+    name = "query-values-sk-demo",
+    html_file = "query-values-sk-demo.html",
+    scss_entry_point = "query-values-sk-demo.scss",
+    sk_element_deps = [":query-values-sk"],
+    ts_entry_point = "query-values-sk-demo.ts",
+)
+
+ts_library(
+    name = "query-values-sk_po_ts_lib",
+    srcs = ["query-values-sk_po.ts"],
+    visibility = ["//visibility:public"],
+    deps = [
+        "//infra-sk/modules:async_ts_lib",
+        "//infra-sk/modules/page_object:page_object_element_ts_lib",
+        "//infra-sk/modules/page_object:page_object_ts_lib",
+        "@npm//elements-sk",
+    ],
+)
+
+karma_test(
+    name = "query-values-sk_test",
+    src = "query-values-sk_test.ts",
+    deps = [
+        ":query-values-sk",
+        ":query-values-sk_po_ts_lib",
+        "//infra-sk/modules:test_util_ts_lib",
+        "@npm//@types/chai",
+        "@npm//chai",
+    ],
+)

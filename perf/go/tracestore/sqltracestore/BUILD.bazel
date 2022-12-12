@@ -1,0 +1,65 @@
+load("//bazel/go:go_test.bzl", "go_test")
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "sqltracestore",
+    srcs = [
+        "intersect.go",
+        "sqltracestore.go",
+    ],
+    importpath = "go.skia.org/infra/perf/go/tracestore/sqltracestore",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//go/metrics2",
+        "//go/now",
+        "//go/paramtools",
+        "//go/query",
+        "//go/skerr",
+        "//go/sklog",
+        "//go/timer",
+        "//go/util",
+        "//go/vec32",
+        "//perf/go/cache",
+        "//perf/go/cache/local",
+        "//perf/go/cache/memcached",
+        "//perf/go/config",
+        "//perf/go/tracestore",
+        "//perf/go/types",
+        "@com_github_hashicorp_golang_lru//:golang-lru",
+        "@com_github_jackc_pgx_v4//:pgx",
+        "@com_github_jackc_pgx_v4//pgxpool",
+        "@io_opencensus_go//trace",
+        "@org_golang_x_sync//errgroup",
+    ],
+)
+
+go_test(
+    name = "sqltracestore_test",
+    srcs = [
+        "intersect_test.go",
+        "sqltracestore_test.go",
+    ],
+    data = ["//perf/migrations:cockroachdb"],
+    embed = [":sqltracestore"],
+    # Perf CockroachDB tests fail intermittently when running locally (i.e. not on RBE) due to tests
+    # running in parallel against the same CockroachDB instance:
+    #
+    #     pq: relation "schema_lock" already exists
+    #
+    # This is not an issue on RBE because each test target starts its own emulator instance.
+    #
+    # https://docs.bazel.build/versions/master/be/common-definitions.html#common-attributes-tests
+    flaky = True,
+    deps = [
+        "//go/now",
+        "//go/paramtools",
+        "//go/query",
+        "//go/vec32",
+        "//perf/go/config",
+        "//perf/go/sql/sqltest",
+        "//perf/go/tracestore",
+        "//perf/go/types",
+        "@com_github_stretchr_testify//assert",
+        "@com_github_stretchr_testify//require",
+    ],
+)

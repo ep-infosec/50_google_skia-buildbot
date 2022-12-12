@@ -1,0 +1,37 @@
+load("//infra-sk:index.bzl", "karma_test", "sk_element")
+
+sk_element(
+    name = "wasm-fiddle-sk",
+    sass_deps = [
+        "//infra-sk:themes_sass_lib",
+        "@npm//:node_modules/codemirror/lib/codemirror.css",
+        "@npm//:node_modules/codemirror/theme/ambiance.css",
+        "@npm//:node_modules/codemirror/theme/base16-light.css",
+    ],
+    sass_srcs = ["wasm-fiddle-sk.scss"],
+    sk_element_deps = ["//infra-sk/modules/theme-chooser-sk"],
+    ts_deps = [
+        "//infra-sk/modules/fps:fps_ts_lib",
+        "@npm//@types/codemirror",
+        "@npm//codemirror",
+        "@npm//common-sk",
+        "@npm//elements-sk",
+        "@npm//lit-html",
+        "@npm//canvaskit-wasm",
+    ],
+    ts_srcs = [
+        "index.ts",
+        "wasm-fiddle-sk.ts",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+karma_test(
+    name = "wasm-fiddle-sk_test",
+    src = "wasm-fiddle-sk_test.ts",
+    deps = [
+        ":wasm-fiddle-sk",
+        "@npm//@types/chai",
+        "@npm//chai",
+    ],
+)

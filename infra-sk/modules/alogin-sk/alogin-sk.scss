@@ -1,0 +1,16 @@
+@import 'node_modules/elements-sk/themes/color-palette.scss';
+@import 'node_modules/elements-sk/themes/themes.scss';
+
+alogin-sk {
+  display: inline-block;
+
+  .logInOut {
+    margin-left: 8px;
+  }
+
+  .email,
+  .logInOut {
+    font-size: 15px;
+    color: var(--primary);
+  }
+}

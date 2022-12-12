@@ -1,0 +1,16 @@
+load("//bazel/go:go_test.bzl", "go_test")
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "timeout",
+    srcs = ["timeout.go"],
+    importpath = "go.skia.org/infra/go/timeout",
+    visibility = ["//visibility:public"],
+)
+
+go_test(
+    name = "timeout_test",
+    srcs = ["timeout_test.go"],
+    embed = [":timeout"],
+    deps = ["@com_github_stretchr_testify//require"],
+)

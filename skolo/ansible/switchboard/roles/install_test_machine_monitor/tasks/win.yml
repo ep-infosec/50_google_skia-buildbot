@@ -1,0 +1,71 @@
+- name:
+    Delete Swarming startup script if running test_machine_monitor with
+    --start_swarming.
+  win_file:
+    path:
+      "{{ ansible_env.APPDATA }}\\Microsoft\\Windows\\Start
+      Menu\\Programs\\Startup\\run_swarm_bot.bat"
+    state: absent
+  when: install_test_machine_monitor__start_swarming
+
+- name: Create ~/bin directory if it doesn't exist.
+  ansible.windows.win_file:
+    path: "C:\\Users\\{{ skolo_account }}\\bin"
+    state: directory
+
+- name: Copy over executable.
+  win_get_url:
+    # Not the trailing dot on domain name: `metadata.`, this is important for
+    # windows to look up the DNS name of the jumphost.
+    url:
+      "http://metadata.:{{ all.jumphost_file_server
+      }}/test_machine_monitor/build/{{ ansible_facts['system'] }}/{{
+      ansible_facts['architecture'] }}/test_machine_monitor"
+    # Note we copy it to "...2.exe" which is then moved to "test_machine_monitor.exe"
+    # by the PowerShell script.
+    dest: "C:\\Users\\{{ skolo_account }}\\bin\\test_machine_monitor2.exe"
+
+- name: Copy over PowerShell script that launches test_machine_monitor.
+  template:
+    src: templates/test_machine_monitor.ps1
+    dest: "C:\\Users\\{{ skolo_account }}\\bin\\test_machine_monitor.ps1"
+
+# Note that this task schedules the PowerShell script to run, and not the
+# executable. We do that so we can update the executable if needed, which can't
+# be done when the exe is running.
+- name: Schedule test_machine_monitor for startup.
+  community.windows.win_scheduled_task:
+    name: test_machine_monitor
+    description: Run test_machine_monitor.
+    actions:
+      # Should be path to a PowerShell script that looks for a
+      # test_machine_monitor2.exe to overwrite test_machine_monitor.exe with if
+      # it exists.
+      - path: '{{ ansible_env.SHELL }}'
+        arguments:
+          -executionpolicy bypass "C:\\Users\\{{ skolo_account
+          }}\\bin\\test_machine_monitor.ps1"
+        working_directory: "C:\\Users\\{{ skolo_account }}\\bin\\"
+    triggers:
+      - type: logon
+    logon_type: interactive_token
+    enabled: true
+    username: '{{ skolo_account }}'
+    hidden: false
+    # 2 ->  Will not start a new instance if another is running.
+    multiple_instances: 2
+    state: present
+    path: \Skia
+    restart_count: 1000
+    # ISO 8601 Duration format for one minute.
+    restart_interval: PT1M
+    # ISO 8601 Duration format for no limit.
+    execution_time_limit: PT0S
+
+- name:
+    Allow test_machine_monitor to accept connections (needed for Prometheus to
+    scrape metrics).
+  community.windows.win_firewall_rule:
+    name: test_machine_monitor.exe
+    program: "C:\\Users\\{{ skolo_account }}\\bin\\test_machine_monitor.exe"
+    action: allow

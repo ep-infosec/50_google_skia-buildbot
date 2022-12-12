@@ -1,0 +1,31 @@
+@import '../themes/themes.scss';
+
+calendar-input-sk {
+  .invalid {
+    display: none;
+    color: var(--error);
+  }
+
+  input:invalid + .invalid {
+    display: inline-block;
+  }
+
+  button.calendar {
+    margin: 0;
+    min-width: 0;
+    padding: 0;
+    height: initial;
+  }
+
+  label input {
+    color: var(--on-surface);
+    background: var(--surface-1dp);
+    border: solid 1px var(--on-surface);
+    padding: 4px;
+  }
+
+  dialog {
+    color: var(--on-background);
+    background: var(--background);
+  }
+}

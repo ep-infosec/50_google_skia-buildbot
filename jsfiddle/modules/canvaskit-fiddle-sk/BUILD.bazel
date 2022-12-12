@@ -1,0 +1,36 @@
+load("//infra-sk:index.bzl", "sk_demo_page_server", "sk_element", "sk_page")
+
+sk_element(
+    name = "canvaskit-fiddle-sk",
+    sk_element_deps = [
+        "//infra-sk/modules/theme-chooser-sk",
+        "//jsfiddle/modules/wasm-fiddle-sk",
+        "//infra-sk/modules/app-sk",
+    ],
+    ts_deps = [
+        "@npm//elements-sk",
+        "@npm//lit-html",
+        "@npm//canvaskit-wasm",
+    ],
+    ts_srcs = [
+        "canvaskit-fiddle-sk.ts",
+        "index.ts",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+sk_page(
+    name = "canvaskit-fiddle-sk-demo",
+    html_file = "canvaskit-fiddle-sk-demo.html",
+    sk_element_deps = [
+        "//jsfiddle/modules/wasm-fiddle-sk",
+        ":canvaskit-fiddle-sk",
+    ],
+    ts_deps = ["@npm//common-sk"],
+    ts_entry_point = "canvaskit-fiddle-sk-demo.ts",
+)
+
+sk_demo_page_server(
+    name = "demo_page_server",
+    sk_page = ":canvaskit-fiddle-sk-demo",
+)

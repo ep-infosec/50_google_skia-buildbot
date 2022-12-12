@@ -1,0 +1,70 @@
+@import '../themes/themes.scss';
+
+perf-scaffold-sk app-sk {
+  --sidebar-width: 110px;
+
+  main {
+    width: calc(100vw - var(--sidebar-width));
+  }
+
+  aside#sidebar {
+    display: flex;
+    flex-direction: column;
+    padding: 16px 8px 0 8px;
+    gap: 16px;
+
+    > * {
+      margin: 0;
+      padding: 0;
+    }
+
+    #links {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    a,
+    svg {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      fill: var(--secondary);
+      color: var(--secondary);
+    }
+
+    a:hover {
+      opacity: 0.8;
+    }
+
+    #help {
+      fill: var(--primary);
+      color: var(--primary);
+
+      tr,
+      td {
+        background-color: var(--surface);
+        padding: 4px;
+      }
+
+      .mono {
+        font-family: var(--mono-font);
+      }
+    }
+  }
+
+  tabs-sk > button.selected,
+  button {
+    background: var(--surface);
+  }
+
+  tabs-sk > button.selected:hover,
+  button:hover {
+    background: var(--background);
+  }
+
+  checkbox-sk .box {
+    border-width: 2px;
+  }
+}

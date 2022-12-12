@@ -1,0 +1,61 @@
+load("//bazel/go:go_test.bzl", "go_test")
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+
+go_library(
+    name = "machineserver_lib",
+    srcs = ["main.go"],
+    importpath = "go.skia.org/infra/machine/go/machineserver",
+    visibility = ["//visibility:private"],
+    deps = [
+        "//go/alogin",
+        "//go/alogin/proxylogin",
+        "//go/auditlog",
+        "//go/baseapp",
+        "//go/common",
+        "//go/httputils",
+        "//go/metrics2",
+        "//go/now",
+        "//go/pubsub",
+        "//go/roles",
+        "//go/skerr",
+        "//go/sklog",
+        "//machine/go/configs",
+        "//machine/go/machine",
+        "//machine/go/machine/change/sink",
+        "//machine/go/machine/change/sink/sse",
+        "//machine/go/machine/event/source/httpsource",
+        "//machine/go/machine/processor",
+        "//machine/go/machine/store",
+        "//machine/go/machineserver/config",
+        "//machine/go/machineserver/rpc",
+        "@com_github_gorilla_mux//:mux",
+        "@com_github_unrolled_secure//:secure",
+    ],
+)
+
+go_binary(
+    name = "machineserver",
+    embed = [":machineserver_lib"],
+    visibility = ["//visibility:public"],
+)
+
+go_test(
+    name = "machineserver_test",
+    srcs = ["main_test.go"],
+    embed = [":machineserver_lib"],
+    deps = [
+        "//go/alogin/proxylogin",
+        "//go/now",
+        "//go/roles",
+        "//go/testutils",
+        "//kube/go/authproxy",
+        "//machine/go/machine",
+        "//machine/go/machine/change/sink/mocks",
+        "//machine/go/machine/store/mocks",
+        "//machine/go/machineserver/rpc",
+        "@com_github_gorilla_mux//:mux",
+        "@com_github_stretchr_testify//assert",
+        "@com_github_stretchr_testify//mock",
+        "@com_github_stretchr_testify//require",
+    ],
+)

@@ -1,0 +1,34 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+
+go_library(
+    name = "codesizeserver_lib",
+    srcs = ["main.go"],
+    importpath = "go.skia.org/infra/codesize/go/codesizeserver",
+    visibility = ["//visibility:private"],
+    deps = [
+        "//codesize/go/bloaty",
+        "//codesize/go/codesizeserver/rpc",
+        "//codesize/go/store",
+        "//go/baseapp",
+        "//go/fileutil",
+        "//go/gcs/gcsclient",
+        "//go/httputils",
+        "//go/now",
+        "//go/pubsub/sub",
+        "//go/skerr",
+        "//go/sklog",
+        "@com_github_cenkalti_backoff_v4//:backoff",
+        "@com_github_gorilla_mux//:mux",
+        "@com_github_unrolled_secure//:secure",
+        "@com_google_cloud_go_pubsub//:pubsub",
+        "@com_google_cloud_go_storage//:storage",
+        "@org_golang_google_api//option",
+        "@org_golang_x_oauth2//google",
+    ],
+)
+
+go_binary(
+    name = "codesizeserver",
+    embed = [":codesizeserver_lib"],
+    visibility = ["//visibility:public"],
+)

@@ -1,0 +1,12 @@
+- name: Fail if platform unsupported.
+  fail:
+    msg: This system isn't supported, please add support.
+  when: ansible_facts['system']|lower not in ['darwin', 'linux']
+
+- name: Stop sleep for Linux.
+  import_tasks: linux.yml
+  when: ansible_facts['system']|lower == "linux"
+
+- name: Stop sleep for Mac.
+  import_tasks: mac.yml
+  when: ansible_facts['system']|lower == "darwin"

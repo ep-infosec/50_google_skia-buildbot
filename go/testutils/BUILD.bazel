@@ -1,0 +1,28 @@
+load("//bazel/go:go_test.bzl", "go_test")
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "testutils",
+    srcs = ["testutils.go"],
+    importpath = "go.skia.org/infra/go/testutils",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//bazel/go/bazel",
+        "//go/repo_root",
+        "//go/sktest",
+        "//go/util",
+        "@com_github_google_uuid//:uuid",
+        "@com_github_stretchr_testify//mock",
+        "@com_github_stretchr_testify//require",
+    ],
+)
+
+go_test(
+    name = "testutils_test",
+    srcs = ["testutils_test.go"],
+    embed = [":testutils"],
+    deps = [
+        "//go/sktest",
+        "@com_github_stretchr_testify//assert",
+    ],
+)

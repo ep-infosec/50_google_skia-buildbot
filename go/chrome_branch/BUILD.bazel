@@ -1,0 +1,25 @@
+load("//bazel/go:go_test.bzl", "go_test")
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "chrome_branch",
+    srcs = ["chrome_branch.go"],
+    importpath = "go.skia.org/infra/go/chrome_branch",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//go/git",
+        "//go/skerr",
+        "//go/util",
+    ],
+)
+
+go_test(
+    name = "chrome_branch_test",
+    srcs = ["chrome_branch_test.go"],
+    embed = [":chrome_branch"],
+    deps = [
+        "//go/deepequal/assertdeep",
+        "//go/mockhttpclient",
+        "@com_github_stretchr_testify//require",
+    ],
+)

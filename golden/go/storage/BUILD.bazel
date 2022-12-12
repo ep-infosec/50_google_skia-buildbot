@@ -1,0 +1,30 @@
+load("//bazel/go:go_test.bzl", "go_test")
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "storage",
+    srcs = ["gcsclient.go"],
+    importpath = "go.skia.org/infra/golden/go/storage",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//go/gcs",
+        "//go/skerr",
+        "//go/sklog",
+        "//go/util",
+        "//golden/go/types",
+        "@com_google_cloud_go_storage//:storage",
+        "@io_opencensus_go//trace",
+        "@org_golang_google_api//option",
+    ],
+)
+
+go_test(
+    name = "storage_test",
+    srcs = ["gcsclient_manual_test.go"],
+    embed = [":storage"],
+    deps = [
+        "//golden/go/types",
+        "@com_github_stretchr_testify//assert",
+        "@com_github_stretchr_testify//require",
+    ],
+)

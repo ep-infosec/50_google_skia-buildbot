@@ -1,0 +1,317 @@
+@use 'node_modules/codemirror/lib/codemirror.css';
+@use 'node_modules/codemirror/theme/ambiance.css';
+@use 'node_modules/codemirror/theme/base16-light.css';
+
+@import '../themes/themes.scss';
+
+.body-sk shaders-app-sk {
+  overflow: hidden;
+  display: block;
+  background: var(--background);
+  margin: 0;
+  min-height: 100vh;
+
+  --sidebar-width: 0;
+  --header-horiz-padding: 16px;
+
+  --secondary: var(--green-500);
+
+  header {
+    border-bottom: solid 1px var(--header-font-color);
+    font-size: 1rem;
+  }
+
+  main {
+    padding: 16px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    textarea {
+      display: block;
+      background: var(--surface);
+      color: var(--secondary);
+      font-family: var(--mono-font);
+      font-size: 1.25rem;
+      resize: none;
+      font-size: 11px;
+      margin: 0 8px 0 0;
+    }
+
+    button {
+      margin: 0;
+    }
+
+    .editButton,
+    .deleteButton,
+    .addButton {
+      border: none;
+    }
+
+    .linkish {
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    p.childShader {
+      display: flex;
+      justify-content: space-between;
+      margin: 0;
+      padding-right: 8px;
+
+      color: var(--primary);
+      fill: var(--primary);
+
+      span {
+        font-family: var(--font);
+      }
+    }
+
+    /* This is the icon for the "add child shader" button */
+    add-icon-sk {
+      display: block;
+
+      svg {
+        width: 24px;
+        height: 24px;
+      }
+    }
+
+    #examples {
+      margin: 0 8px 8px 0;
+      font-size: 1.25rem;
+    }
+
+    canvas {
+      margin: 0 16px 16px 0;
+    }
+
+    #codeEditor {
+      margin: 0 8px 8px 0;
+      font-size: 1.25rem;
+    }
+
+    /* Debug, run, and save button */
+    #shaderControls {
+      margin-left: 0;
+
+      .action {
+        margin: 8px;
+        border-radius: 8px;
+        padding: 8px 16px 8px 16px;
+        background-color: #4285F4;
+        color:#FFF;
+        text-align: center;
+        font-family: var(--font);
+        font-weight: medium;
+        font-size: 0.875rem;
+      }
+    }
+
+    #uniformControls {
+      margin-left: 0;
+    }
+
+    #uniformControls > * {
+      padding: 0;
+      margin: 0 8px 8px 0;
+    }
+
+    #uniformControls uniform-mouse-sk {
+      padding: 0;
+      margin: 0;
+    }
+
+    #compileErrors {
+      h3 {
+        margin: 8px 0;
+        color: var(--error);
+      }
+
+      pre {
+        margin: 0 0 0 8px;
+      }
+    }
+  }
+
+  details[open] {
+    background: var(--surface);
+  }
+
+  details#shaderinputs {
+    /* Box containing shader input information */
+    display: initial;
+    padding: initial;
+    list-style: initial;
+    box-shadow: initial;
+    margin: 0 8px 8px 0;
+    font-size: 1rem;
+    background: var(--background);
+    border: none;
+
+    textarea {
+      margin: 16px;
+      padding: 8px;
+    }
+
+    #imageSources {
+      display: flex;
+      align-items: flex-start;
+      margin: 8px;
+
+      figure {
+        margin: 0 8px 0 0;
+        display: flex;
+        flex-flow: column;
+        align-items: center;
+
+        img {
+          width: 32px;
+          height: 32px;
+        }
+
+        figcaption {
+          margin: 4px 0;
+        }
+      }
+    }
+
+    /* Shader input and edit icon label */
+    summary {
+      margin: 8px;
+      border-radius: 8px;
+      padding: 8px 16px 8px 16px;
+      background-color: #4285F4;
+      color:#FFF;
+      text-align: center;
+      font-family: var(--font);
+      font-weight: medium;
+      font-size: 0.875rem;
+    }
+
+    summary::-webkit-details-marker {
+      display: none;
+    }
+  }
+
+  details#image_edit {
+    margin: 0 8px 8px 0;
+
+    summary {
+      list-style: none;
+
+      edit-icon-sk {
+        display: block;
+        svg {
+          width: 24px;
+          height: 24px;
+        }
+      }
+    }
+  }
+
+  details#image_edit > summary::-webkit-details-marker {
+    display: none;
+  }
+
+  details#image_edit[open] {
+    summary {
+      margin: 0 8px 8px 0;
+    }
+
+    #image_edit_dialog {
+      border: solid var(--surface-2dp) 1px;
+      padding: 8px;
+
+      > * {
+        margin: 0 8px 8px 0;
+      }
+    }
+
+    label {
+      display: block;
+      margin: 0 8px 8px 0;
+    }
+
+    button {
+      margin: 0 0 0 8px;
+    }
+
+    input[type='url'] {
+      padding: 4px;
+    }
+  }
+
+  .CodeMirror {
+    height: 512px;
+    resize: both;
+    overflow: hidden;
+
+    * {
+      font-family: var(--mono-font);
+      font-size: 1rem;
+    }
+  }
+  .example-gallery-and-canvas-wrapper {
+    display: flex;
+  }
+  /** Gallery template css */
+  .gallery-container {
+    display: flex;
+    justify-content: center;
+    padding: 16px;
+  }
+  .thumbnails {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .thumbnails img {
+    width: 110px;
+    height: 110px;
+    top: 100px;
+    left: 80px;
+    cursor: pointer;
+  }
+  .thumbnails:hover img {
+    opacity: 0.5;
+    -webkit-transition: .3s ease-in-out;
+    transition: .3s ease-in-out;
+  }
+  .scrollbar {
+    width: 12px;
+    height: 512px;
+    background: #ccc;
+    opacity: 0.5;
+  }
+  .thumb {
+    width: 1px;
+    position: absolute;
+  }
+  .slides {
+    list-style: none;
+    margin: 0 16px;
+    display: grid;
+    grid-auto-flow: row;
+    gap: 1rem;
+    width: calc(100px + 1rem);
+    padding: 0 0.25rem;
+    height: 512px;
+    overflow-y: auto;
+    overscroll-behavior-y: contain;
+    scroll-snap-type: y mandatory;
+    scrollbar-width: none;
+  }
+  .slides > div {
+    scroll-snap-align: start;
+  }
+  .slides img {
+    width: 100px;
+    object-fit: fill;
+    border-radius: 8px;
+  }
+  .slides::-webkit-scrollbar {
+    display: none;
+  }
+}

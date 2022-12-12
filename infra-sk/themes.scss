@@ -1,0 +1,429 @@
+/*
+
+//infra-sk/themes.scss is a common theme to be used across all Skia
+infrastructure applications so that we have a consistent look and feel.
+
+This file consists of several different layers of styling that can be opted
+into.
+
+
+# Layer 1
+
+The first layer is a consistent styling of all buttons, select controls, and
+tables, that are applied globally. You get this just by including the
+themes.scss file.
+
+
+# Layer 2
+
+The second layer is applied by adding the `body-sk` class to the <body> element
+of a page. This layer adds a large number of semantic CSS variables, whose names
+come from Material Design, that are to be used for styling elements. For
+example, if you have a panel that should look like a surface then it can be
+styled as:
+
+    my-panel {
+      background: var(--surface);
+      color: var(--on-surface);
+    }
+
+These semantic colors are supplied in two sets, one for light mode and another
+for dark mode. Dark mode is turned on by adding the `darkmode` class to an
+element, which triggers that element and all of its children to move to
+darkmode.
+
+The darkmode/lightmode is usually controlled via the `theme-chooser-sk` control
+which toggles the `darkmode` class on the body element and persists the user's
+choice in local storage.
+
+The `body-sk` class also adds more styling to many common elements such as
+buttons, links, and other elements-sk elements.
+
+# Layer 3
+
+The third layer is applied by adding the `font-sk` class to the body element of
+a page. This layer sets consistent font styling for a page, and adds `--font`
+and `--mono-font` CSS variables.
+
+To see all of the semantic names and their values working, along with and
+example elements in both dark and light mode, run:
+
+    $ ./demopage.sh infra-sk/modules/theme-chooser-sk/
+
+You can use the theme-chooser-sk element on that demo page to toggle between
+dark and light modes.
+
+Most applications should use `app-sk` as their base element, so you can also run
+
+   $ ./demopage.sh infra-sk/modules/app-sk/
+
+to see how these styles apply to title bars and sidebars.
+
+*/
+
+@import 'node_modules/elements-sk/themes/color-palette.scss';
+@import 'node_modules/elements-sk/themes/themes.scss';
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic|Roboto+Mono:400,500|Material+Icons');
+
+@import 'node_modules/elements-sk/styles/buttons/buttons.scss';
+@import 'node_modules/elements-sk/styles/select/select.scss';
+@import 'node_modules/elements-sk/styles/table/table.scss';
+
+.body-sk {
+  &.font-sk,
+  & .font-sk {
+    /* Typography */
+    --font: Roboto, Arial, 'Bitstream Vera Sans', sans-serif;
+    --mono-font: Roboto Mono, monospace;
+
+    * {
+      font-size: 12px;
+      font-family: var(--font);
+      box-sizing: border-box;
+    }
+
+    h1 {
+      font-size: 20px;
+      margin: 16px 0;
+    }
+
+    h2 {
+      font-size: 18px;
+      margin: 14px 0;
+    }
+
+    h3 {
+      font-size: 16px;
+      margin: 12px 0;
+    }
+
+    h4 {
+      font-size: 14px;
+      margin: 10px 0;
+    }
+
+    h5 {
+      font-size: 12px;
+      margin: 8px 0;
+    }
+
+    code,
+    pre {
+      font-family: var(--mono-font);
+    }
+  }
+
+  /* Semantic colors defined by elements-sk. */
+  --background: var(--grey-50);
+  --disabled: var(--grey-500);
+  --error: var(--red-900);
+  --on-background: var(--black);
+  --on-disabled: var(--grey-700);
+  --on-error: var(--white);
+  --on-primary-variant: var(--black);
+  --on-primary: var(--white);
+  --on-secondary: var(--white);
+  --on-surface: var(--black);
+  --primary-variant: var(--light-blue-600);
+  --primary: var(--blue-800);
+  --secondary: var(--green-500);
+  --surface-1dp: var(--grey-200);
+  --surface-2dp: var(--grey-400);
+  --surface: var(--white);
+  --transparent-overlay: rgba(0, 0, 0, 0.5);
+
+  /* Additional semantic colors. */
+  --primary-highlight: var(--light-blue-100);
+  --secondary-highlight: var(--green-100);
+  --on-hightlight: var(--black);
+
+  --failure-alpha: rgba(217, 95, 2, 0.8);
+  --failure: rgb(217, 95, 2);
+  --on-failure: var(--black);
+  --on-success: var(--black);
+  --on-warning: var(--black);
+  --success-alpha: rgba(102, 166, 30, 0.3);
+  --success: rgb(102, 166, 30);
+  --warning-alpha: rgb(255, 171, 64, 0.8);
+  --warning: rgb(255, 167, 38);
+  --unexpected: rgb(117, 112, 179);
+  --unexpected-alpha: rgba(117, 112, 179, 1);
+
+  --positive: var(--green-500);
+  --negative: var(--red-500);
+  --untriaged: var(--brown-400);
+
+  &.darkmode,
+  & .darkmode {
+    /* Semantic colors defined by elements-sk. */
+    --background: #121212;
+    --disabled: var(--grey-600);
+    --error: var(--pink-400);
+    --on-background: #cccccc;
+    --on-disabled: var(--grey-300);
+    --on-error: var(--black);
+    --on-primary-variant: var(--surface);
+    --on-primary: var(--surface);
+    --on-secondary: var(--background);
+    --on-surface: #dddddd;
+    --primary-variant: var(--light-blue-100);
+    --primary: var(--blue-200);
+    --secondary: var(--green-200);
+    --surface-1dp: var(--grey-800);
+    --surface-2dp: var(--grey-700);
+    --surface: var(--grey-900);
+    --transparent-overlay: rgba(255, 255, 255, 0.5);
+
+    /* Additional semantic colors. */
+    --primary-highlight: var(--light-blue-900);
+    --secondary-highlight: var(--green-900);
+    --on-hightlight: var(--grey-100);
+
+    --failure-alpha: rgba(217, 95, 2, 0.5);
+    --on-failure: var(--on-secondary);
+    --on-success: var(--on-secondary);
+    --on-warning: var(--on-secondary);
+    --warning-alpha: rgb(255, 171, 64, 0.5);
+
+    --positive: var(--green-500);
+    --negative: var(--red-500);
+    --untriaged: var(--brown-400);
+  }
+
+  a:active,
+  a:visited,
+  a:link {
+    color: var(--primary);
+  }
+
+  a:hover {
+    /* Distinguish hovering over links. */
+    color: var(--primary-variant);
+  }
+
+  .input-like,
+  input {
+    border: solid 1px var(--on-surface);
+    color: solid 1px var(--on-surface);
+    background: solid 1px var(--surface);
+    display: inline-block;
+  }
+
+  .button-like,
+  button {
+    min-width: auto;
+    text-align: center;
+    text-transform: none;
+    padding: 4px;
+    height: fit-content;
+    margin: 8px 2px;
+    outline: none;
+    border: solid 1px var(--on-surface);
+
+    box-shadow: 2px 2px 0px 0px var(--surface-2dp);
+  }
+
+  .button-like.icon,
+  button.icon {
+    border: none;
+    box-shadow: none;
+  }
+
+  .button-like.action,
+  button.action {
+    box-shadow: 2px 2px 0px 0px var(--surface-2dp);
+    border: none;
+  }
+
+  .button-like:active,
+  button:active {
+    box-shadow: none;
+    transition: box-shadow 0.2s ease-in;
+  }
+
+  .button-like:disabled,
+  button:disabled {
+    opacity: 0.5;
+    background: var(--on-disabled);
+    color: var(--disabled);
+    fill: var(--disabled);
+  }
+
+  multi-select-sk:focus,
+  select-sk:focus,
+  button:focus {
+    outline: dashed 1px var(--on-surface);
+    outline-offset: -4px;
+  }
+
+  multi-select-sk {
+    border: solid 1px var(--on-surface);
+    background-color: var(--surface);
+    color: var(--on-surface);
+  }
+
+  multi-select-sk > * {
+    background-color: var(--surface);
+    border: solid 1px var(--surface);
+  }
+
+  multi-select-sk > [selected] {
+    background: var(--surface-1dp);
+  }
+
+  multi-select-sk > :hover {
+    border: var(--surface-1dp) solid 1px;
+  }
+
+  select-sk,
+  select-sk > * {
+    background-color: var(--surface);
+    color: var(--on-surface);
+  }
+
+  select-sk > [selected] {
+    background: var(--surface-1dp);
+  }
+
+  select-sk > * {
+    border: var(--surface) solid 1px;
+  }
+
+  select-sk > :hover {
+    border: var(--surface-1dp) solid 1px;
+  }
+
+  select-sk > :focus {
+    background-color: var(--surface-1dp);
+    transition: background-color 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  select-sk > [selected] {
+    background-color: var(--surface-1dp);
+  }
+
+  error-toast-sk {
+    padding: 8px;
+  }
+
+  error-toast-sk button {
+    margin: 0 0 0 8px;
+    padding: 4px;
+  }
+
+  button:focus {
+    outline: dashed 1px var(--on-surface);
+    outline-offset: -4px;
+  }
+
+  tabs-sk {
+    > button {
+      border: none;
+      border-bottom: solid 4px var(--on-surface);
+      box-shadow: none;
+    }
+    > button.selected {
+      border-bottom: solid 4px var(--primary);
+    }
+  }
+
+  /*
+  This styling makes the `summary` element in a `details` element look like a
+  button. If `button` styles are updated then this styling should also be
+  updated to match.
+  */
+  details {
+    summary {
+      display: inline-block;
+      padding: 4px;
+      background: var(--surface);
+      color: var(--on-surface);
+      border: solid 1px var(--on-surface);
+      cursor: pointer;
+      list-style: none;
+      margin: 8px 4px 8px 0;
+      box-shadow: 2px 2px 0px 0px var(--surface-2dp);
+    }
+
+    summary:focus {
+      outline: dashed 1px var(--on-surface);
+      outline-offset: -4px;
+    }
+
+    summary::-webkit-details-marker {
+      display: none;
+    }
+
+    summary:active {
+      box-shadow: none;
+      transition: box-shadow 0.2s ease-in;
+    }
+  }
+
+  details[open] {
+    border: solid 1px var(--on-surface);
+    padding: 0 8px 16px 8px;
+    background: var(--surface);
+    margin: 8px 8px 8px 0;
+
+    summary {
+      margin-top: 8px;
+      margin-bottom: 8px;
+    }
+  }
+
+  /*
+     The following styles are for scrollbars. There are some non-standard
+     looking styles because it is 2020 and there's still no standard way to
+     style scrollbars on a web page.
+
+     https://caniuse.com/#feat=css-scrollbar
+
+     There is currently an editor's draft for styling scrollbars:
+     https://drafts.csswg.org/css-scrollbars-1/, but it is only supported by
+     FireFox. So set that first.
+  */
+
+  * {
+    scrollbar-color: var(--surface-1dp) var(--background);
+  }
+
+  /* Turn on a 13x13 scrollbar */
+  ::-webkit-scrollbar {
+    width: 13px;
+    height: 13px;
+  }
+
+  /* Turn off single button up on top and down on bottom */
+  ::-webkit-scrollbar-button:start:decrement,
+  ::-webkit-scrollbar-button:end:increment,
+  ::-webkit-scrollbar-button:vertical:start:increment,
+  ::-webkit-scrollbar-button:vertical:end:decrement {
+    display: none;
+  }
+
+  /* Track below and above */
+  ::-webkit-scrollbar-track-piece {
+    background-color: var(--background);
+    border: solid 1px var(--surface-2dp);
+  }
+
+  /* The thumb itself */
+  ::-webkit-scrollbar-thumb {
+    border: solid 1px var(--on-surface);
+    background: var(--surface-1dp);
+  }
+
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--surface);
+  }
+
+  td {
+    font-size: 100%;
+  }
+
+  th {
+    font-size: 100%;
+  }
+}

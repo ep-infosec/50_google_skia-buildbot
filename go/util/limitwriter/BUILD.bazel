@@ -1,0 +1,16 @@
+load("//bazel/go:go_test.bzl", "go_test")
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "limitwriter",
+    srcs = ["limitwriter.go"],
+    importpath = "go.skia.org/infra/go/util/limitwriter",
+    visibility = ["//visibility:public"],
+)
+
+go_test(
+    name = "limitwriter_test",
+    srcs = ["limitwriter_test.go"],
+    embed = [":limitwriter"],
+    deps = ["@com_github_stretchr_testify//assert"],
+)

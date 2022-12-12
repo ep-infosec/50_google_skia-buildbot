@@ -1,0 +1,30 @@
+plot-simple-sk {
+  resize: both;
+  overflow: hidden;
+  min-width: 200px;
+  min-height: 200px;
+  position: relative;
+  padding: 0;
+  border: 0;
+  color: var(--black);
+  background: var(--white);
+
+  canvas.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  canvas {
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+}
+
+@import '../themes/themes.scss';
+
+.body-sk plot-simple-sk {
+  color: var(--on-background);
+  background: var(--background);
+}

@@ -1,0 +1,8 @@
+load("//bazel/go:go_test.bzl", "go_test")
+
+go_test(
+    name = "go_test",
+    srcs = ["go_test.go"],
+    tags = ["manual"],
+    visibility = ["//bazel/test_on_env:__pkg__"],
+)

@@ -1,0 +1,14 @@
+[Unit]
+Description=Obtain an OAuth2 access token.
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/get-oauth2-token
+User=root
+Group=root
+LimitNOFILE=10000
+
+[Install]
+WantedBy=multi-user.target

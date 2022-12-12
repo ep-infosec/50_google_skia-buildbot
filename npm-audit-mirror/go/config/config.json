@@ -1,0 +1,55 @@
+{
+  "supported_projects": {
+    "skia-infra": {
+      "repo_url": "https://skia.googlesource.com/buildbot.git",
+      "git_branch": "main",
+      "package_json_dir": "",
+      "packages_allow_list": [
+        {
+          "name": "common-sk",
+          "version": "*"
+        },
+        {
+          "name": "elements-sk",
+          "version": "*"
+        }
+      ],
+      "trusted_scopes": [],
+      "monorail_config": {
+        "instance_name": "skia",
+        "owner": "rmistry@google.com",
+        "component_def_ids": [
+          "36252097"
+        ]
+      }
+    },
+    "chops-monorail": {
+      "repo_url": "https://chromium.googlesource.com/infra/infra.git",
+      "git_branch": "main",
+      "package_json_dir": "appengine/monorail",
+      "packages_allow_list": [],
+      "trusted_scopes": [],
+      "monorail_config": {
+        "instance_name": "chromium",
+        "owner": "zhangtiff@google.com",
+        "component_def_ids": [
+          "36250649"
+        ]
+      }
+    },
+    "chops-dash": {
+      "repo_url": "https://chromium.googlesource.com/infra/infra.git",
+      "git_branch": "main",
+      "package_json_dir": "go/src/infra/appengine/dashboard/frontend",
+      "packages_allow_list": [],
+      "trusted_scopes": [],
+      "monorail_config": {
+        "instance_name": "chromium",
+        "owner": "andrewjc@google.com",
+        "component_def_ids": [
+          "36250649"
+        ]
+      }
+    }
+  }
+}

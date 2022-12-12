@@ -1,0 +1,55 @@
+- name: Remove any legacy install of Swarming.
+  # Swarming's dir used to live here before macOS 10.15, at which point it
+  # became an unwriteable location.
+  become: true
+  file:
+    path: /b/s
+    state: absent
+
+- name: Make Swarming dir.
+  # test_machine_monitor's swarming/bootstrap() would do it, but it does it
+  # with 0777 because that dir is being mounted inside a Docker container on
+  # Linux. We can be a little tighter here.
+  become: true
+  file:
+    path: /opt/s
+    state: directory
+    recurse: true
+    owner: '{{ skolo_account }}'
+    mode: 0755
+
+# Python 3.9.6 is taken to be already present, since it's installed by prepare-mac-for-ansible.yml.
+
+- name: Install pyobjc.
+  block:
+    - name: Pick temp filename to hold requirements.
+      tempfile:
+      register: requirements
+    - name: Overwrite temp file with requirments.
+      copy:
+        src: files/pyobjc_requirements.txt
+        dest: '{{ requirements.path }}'
+        mode: 0600
+        force: true
+    - name: Run pip against requirements.
+      # The Python 3.9 and above versions of pyobjc ship as universal binaries.
+      # The pyobjc distro is a stub which depends on packages like
+      # https://pypi.org/project/pyobjc-core/#files, where the actual binaries
+      # live. Version is pinned just for uniformity.
+      pip:
+        # Dodge /usr/bin/pip3, which triggers an xcode-select interruption.
+        executable: /usr/local/bin/pip3
+        requirements: '{{ requirements.path }}'
+
+- name: Allow chrome-bot to sudo shutdown.
+  become: true
+  lineinfile:
+    path: /private/etc/sudoers.d/swarming
+    state: present
+    create: true
+    line: '{{ skolo_account }} ALL=NOPASSWD: ALL'
+    regexp: '^{{ skolo_account }} ALL=NOPASSWD:.*'
+    validate: /usr/sbin/visudo -cf %s
+    mode: 0644
+    owner: root
+    group: wheel

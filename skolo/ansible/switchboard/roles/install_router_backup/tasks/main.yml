@@ -1,0 +1,35 @@
+- name: Load router_backup_ansible executables.
+  import_role:
+    name: get_ansible_binaries
+  vars:
+    get_ansible_binaries_application: router_backup_ansible
+    get_ansible_binaries_version: '{{ router_backup_ansible_version }}'
+
+- name: Copy over service file.
+  become: true
+  template:
+    src: templates/router_backup_ansible.service
+    dest: /etc/systemd/system/router_backup_ansible.service
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Copy over executable.
+  become: true
+  copy:
+    src:
+      "{{ get_ansible_binaries_directory.path }}/build/{{
+      ansible_facts['system'] }}/{{ ansible_facts['architecture']
+      }}/router_backup_ansible"
+    dest: /usr/local/bin/router_backup_ansible
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: Start systemd servce.
+  become: true
+  systemd:
+    enabled: true
+    state: restarted
+    name: router_backup_ansible
+    daemon_reload: true

@@ -1,0 +1,34 @@
+load("//bazel/go:go_test.bzl", "go_test")
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "calc",
+    srcs = [
+        "doc.go",
+        "funcs.go",
+        "lex.go",
+        "parser.go",
+    ],
+    importpath = "go.skia.org/infra/go/calc",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//go/vec32",
+        "//perf/go/types",
+    ],
+)
+
+go_test(
+    name = "calc_test",
+    srcs = [
+        "funcs_test.go",
+        "lex_test.go",
+        "parser_test.go",
+    ],
+    embed = [":calc"],
+    deps = [
+        "//go/query",
+        "//go/vec32",
+        "//perf/go/types",
+        "@com_github_stretchr_testify//assert",
+    ],
+)

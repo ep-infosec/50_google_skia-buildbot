@@ -1,0 +1,32 @@
+@import '../themes/themes.scss';
+
+commit-detail-panel-sk {
+  pre,
+  span {
+    margin: 0;
+  }
+
+  a {
+    color: var(--primary);
+    font-weight: bold;
+  }
+
+  td {
+    padding: 0.2em;
+    border: none;
+  }
+
+  tr[selected] {
+    background: var(--surface-1dp);
+  }
+
+  opacity: 0.6;
+}
+
+commit-detail-panel-sk[selectable] td {
+  cursor: pointer;
+}
+
+commit-detail-panel-sk[selectable] {
+  opacity: 1;
+}

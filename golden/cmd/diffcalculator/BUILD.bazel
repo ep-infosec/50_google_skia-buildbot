@@ -1,0 +1,60 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+load("//bazel/go:go_test.bzl", "go_test")
+
+go_library(
+    name = "diffcalculator_lib",
+    srcs = ["diffcalculator.go"],
+    importpath = "go.skia.org/infra/golden/cmd/diffcalculator",
+    visibility = ["//visibility:private"],
+    deps = [
+        "//go/common",
+        "//go/httputils",
+        "//go/metrics2",
+        "//go/now",
+        "//go/paramtools",
+        "//go/skerr",
+        "//go/sklog",
+        "//go/util",
+        "//golden/go/config",
+        "//golden/go/diff",
+        "//golden/go/diff/worker",
+        "//golden/go/sql",
+        "//golden/go/sql/schema",
+        "//golden/go/tracing",
+        "//golden/go/types",
+        "@com_github_cockroachdb_cockroach_go_v2//crdb/crdbpgx",
+        "@com_github_hashicorp_golang_lru//:golang-lru",
+        "@com_github_jackc_pgx_v4//:pgx",
+        "@com_github_jackc_pgx_v4//pgxpool",
+        "@com_google_cloud_go_storage//:storage",
+        "@io_opencensus_go//trace",
+    ],
+)
+
+go_binary(
+    name = "diffcalculator",
+    embed = [":diffcalculator_lib"],
+    visibility = ["//visibility:public"],
+)
+
+go_test(
+    name = "diffcalculator_test",
+    srcs = ["diffcalculator_test.go"],
+    embed = [":diffcalculator_lib"],
+    deps = [
+        "//go/now",
+        "//go/paramtools",
+        "//go/testutils",
+        "//golden/go/diff",
+        "//golden/go/diff/mocks",
+        "//golden/go/sql/datakitchensink",
+        "//golden/go/sql/schema",
+        "//golden/go/sql/sqltest",
+        "//golden/go/types",
+        "@com_github_hashicorp_golang_lru//:golang-lru",
+        "@com_github_jackc_pgx_v4//pgxpool",
+        "@com_github_stretchr_testify//assert",
+        "@com_github_stretchr_testify//mock",
+        "@com_github_stretchr_testify//require",
+    ],
+)

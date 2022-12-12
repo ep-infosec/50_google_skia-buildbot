@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>paramset-sk</title>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style type="text/css" media="screen">
+    body {
+      font-family: sans-serif;
+    }
+
+    paramset-sk {
+      display: block;
+      margin: 3em;
+    }
+  </style>
+</head>
+<body class="body-sk">
+  <h1>paramset-sk</h1>
+
+  <h2>One single ParamSet, no titles</h2>
+  <paramset-sk id=one-paramset-no-titles></paramset-sk>
+
+  <h2>One single ParamSet, with titles</h2>
+  <paramset-sk id=one-paramset-with-titles></paramset-sk>
+
+  <h2>Multiple ParamSets, no titles</h2>
+  <paramset-sk id=many-paramsets-no-titles></paramset-sk>
+
+  <h2>Multiple ParamSets, with titles</h2>
+  <paramset-sk id=many-paramsets-with-titles></paramset-sk>
+
+  <h2>Multiple ParamSets, with titles, values clickable</h2>
+  <paramset-sk id=many-paramsets-with-titles-values-clickable clickable_values></paramset-sk>
+
+  <h2>Multiple ParamSets, with titles, keys and values clickable</h2>
+  <paramset-sk id=many-paramsets-with-titles-keys-and-values-clickable clickable></paramset-sk>
+
+  <h2>One ParamSets, with clickable values and a clickable plus.</h2>
+  <paramset-sk id=clickable-plus-with-clickable-values clickable_plus clickable_values></paramset-sk>
+
+  <h2>One ParamSet, with clickable plus.</h2>
+  <paramset-sk id=clickable-plus clickable_plus></paramset-sk>
+
+  <h2>Highlights</h2>
+  <button id=highlight>Highlight</button>
+  <button id=clear>Clear</button>
+
+  <h2>Events</h2>
+  <table>
+    <tr><th>paramset-key-click      </th><td><pre id=key-click-event>      </pre></td></tr>
+    <tr><th>paramset-key-value-click</th><td><pre id=key-value-click-event></td></pre></tr>
+    <tr><th>plus-click</th><td><pre id=plus-click-event></td></pre></tr>
+  </table>
+</body>
+</html>

@@ -1,0 +1,163 @@
+@import '../themes/themes.scss';
+
+cluster-summary2-sk {
+  #status button {
+    margin-right: 8px;
+  }
+
+  .actions button {
+    min-width: 0;
+    text-transform: none;
+    padding: 8px;
+    border: solid var(--on-surface) 1px;
+    margin: 0 0 8px 8px;
+  }
+
+  input {
+    color: var(--on-surface);
+    background: var(--surface);
+    border: solid 1px var(--on-surface);
+  }
+
+  #status.disabled {
+    opacity: 0.5;
+  }
+
+  .regression {
+    padding: 3px 6px;
+    margin-bottom: 0.5em;
+    font-size: 110%;
+  }
+
+  .high {
+    background: var(--red-700);
+    color: var(--surface);
+  }
+
+  .low {
+    background: var(--green-700);
+    color: var(--surface);
+  }
+
+  @media (max-width: 600px) {
+    plot-simple-sk {
+      display: none;
+    }
+  }
+
+  .wordCloudCollapse[closed] {
+    display: none;
+  }
+
+  .wordCloudCollapse {
+    display: block;
+  }
+
+  .disabledMessage {
+    display: none;
+  }
+
+  #status {
+    border: solid var(--light-gray) 1px;
+    display: flex;
+    flex-flow: wrap column;
+
+    triage2-sk {
+      margin: 8px;
+    }
+  }
+
+  #status > button {
+    margin: 8px;
+  }
+
+  #status.disabled .disabledMessage {
+    display: block;
+  }
+
+  #status.hidden,
+  #permalink.hidden {
+    display: none;
+  }
+
+  #rangelink,
+  #permalink {
+    color: var(--primary);
+    margin: 1em;
+  }
+
+  input {
+    padding: 0.6em;
+    margin: 0.6em;
+  }
+
+  .labelled {
+    margin-right: 2em;
+  }
+
+  commit-detail-panel-sk {
+    margin: 0.6em;
+  }
+
+  .regression {
+    grid-area: regression;
+  }
+
+  .stats {
+    display: flex;
+    flex-flow: wrap row;
+    grid-area: stats;
+    margin-left: 8px;
+  }
+
+  .plot {
+    grid-area: plot;
+    margin: 1em;
+    display: block;
+    width: 800px;
+    height: 250px;
+  }
+
+  #status {
+    grid-area: status;
+    width: 20em;
+  }
+
+  #commits {
+    grid-area: commits;
+  }
+
+  .actions {
+    grid-area: actions;
+  }
+
+  .wordCloudCollapse {
+    grid-area: cloud;
+  }
+
+  collapse-sk {
+    margin: 8px;
+  }
+
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-areas:
+    'regression regression'
+    'stats      stats'
+    'plot       status'
+    'commits    commits'
+    'actions    actions'
+    'cloud      cloud';
+}
+
+.body-sk.darkmode cluster-summary2-sk {
+  .high {
+    color: var(--on-surface);
+    background: var(--red-500);
+  }
+
+  .low {
+    color: var(--on-surface);
+    background: var(--green-500);
+  }
+}

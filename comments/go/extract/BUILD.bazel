@@ -1,0 +1,16 @@
+load("//bazel/go:go_test.bzl", "go_test")
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "extract",
+    srcs = ["extract.go"],
+    importpath = "go.skia.org/infra/comments/go/extract",
+    visibility = ["//visibility:public"],
+)
+
+go_test(
+    name = "extract_test",
+    srcs = ["extract_test.go"],
+    embed = [":extract"],
+    deps = ["@com_github_stretchr_testify//assert"],
+)

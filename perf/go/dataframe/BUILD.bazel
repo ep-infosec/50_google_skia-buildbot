@@ -1,0 +1,43 @@
+load("//bazel/go:go_test.bzl", "go_test")
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "dataframe",
+    srcs = ["dataframe.go"],
+    importpath = "go.skia.org/infra/perf/go/dataframe",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//go/paramtools",
+        "//go/query",
+        "//go/skerr",
+        "//go/timer",
+        "//perf/go/git",
+        "//perf/go/progress",
+        "//perf/go/types",
+    ],
+)
+
+go_test(
+    name = "dataframe_test",
+    srcs = ["dataframe_test.go"],
+    data = ["//perf/migrations:cockroachdb"],
+    embed = [":dataframe"],
+    # Perf CockroachDB tests fail intermittently when running locally (i.e. not on RBE) due to tests
+    # running in parallel against the same CockroachDB instance:
+    #
+    #     pq: relation "schema_lock" already exists
+    #
+    # This is not an issue on RBE because each test target starts its own emulator instance.
+    #
+    # https://docs.bazel.build/versions/master/be/common-definitions.html#common-attributes-tests
+    flaky = True,
+    deps = [
+        "//go/paramtools",
+        "//go/vec32",
+        "//perf/go/git",
+        "//perf/go/git/gittest",
+        "//perf/go/types",
+        "@com_github_stretchr_testify//assert",
+        "@com_github_stretchr_testify//require",
+    ],
+)

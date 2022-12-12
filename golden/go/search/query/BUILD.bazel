@@ -1,0 +1,32 @@
+load("//bazel/go:go_test.bzl", "go_test")
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "query",
+    srcs = [
+        "query.go",
+        "types.go",
+    ],
+    importpath = "go.skia.org/infra/golden/go/search/query",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//go/paramtools",
+        "//go/skerr",
+        "//go/util",
+        "//golden/go/expectations",
+        "//golden/go/types",
+        "//golden/go/validation",
+    ],
+)
+
+go_test(
+    name = "query_test",
+    srcs = ["query_test.go"],
+    data = glob(["testdata/**"]),
+    embed = [":query"],
+    deps = [
+        "//go/paramtools",
+        "//go/testutils",
+        "@com_github_stretchr_testify//require",
+    ],
+)

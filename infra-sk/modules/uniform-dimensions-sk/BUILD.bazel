@@ -1,0 +1,52 @@
+load("//infra-sk:index.bzl", "karma_test", "sk_demo_page_server", "sk_element", "sk_element_puppeteer_test", "sk_page")
+
+sk_demo_page_server(
+    name = "demo_page_server",
+    sk_page = ":uniform-dimensions-sk-demo",
+)
+
+sk_element(
+    name = "uniform-dimensions-sk",
+    sass_srcs = ["uniform-dimensions-sk.scss"],
+    ts_deps = [
+        "//infra-sk/modules/ElementSk:index_ts_lib",
+        "//infra-sk/modules/uniform:uniform_ts_lib",
+        "@npm//elements-sk",
+        "@npm//lit-html",
+    ],
+    ts_srcs = [
+        "index.ts",
+        "uniform-dimensions-sk.ts",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+sk_page(
+    name = "uniform-dimensions-sk-demo",
+    html_file = "uniform-dimensions-sk-demo.html",
+    sk_element_deps = [":uniform-dimensions-sk"],
+    ts_deps = ["@npm//common-sk"],
+    ts_entry_point = "uniform-dimensions-sk-demo.ts",
+)
+
+sk_element_puppeteer_test(
+    name = "uniform-dimensions-sk_puppeteer_test",
+    src = "uniform-dimensions-sk_puppeteer_test.ts",
+    sk_demo_page_server = ":demo_page_server",
+    deps = [
+        "//puppeteer-tests:util_ts_lib",
+        "@npm//@types/chai",
+        "@npm//chai",
+    ],
+)
+
+karma_test(
+    name = "uniform-dimensions-sk_test",
+    src = "uniform-dimensions-sk_test.ts",
+    deps = [
+        ":uniform-dimensions-sk",
+        "//infra-sk/modules:test_util_ts_lib",
+        "@npm//@types/chai",
+        "@npm//chai",
+    ],
+)

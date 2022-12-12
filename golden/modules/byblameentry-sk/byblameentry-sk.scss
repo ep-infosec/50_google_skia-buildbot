@@ -1,0 +1,25 @@
+@use 'node_modules/elements-sk/colors.scss';
+
+byblameentry-sk {
+  display: block;
+
+  .blame {
+    border: 1px solid var(--light-gray);
+    margin: 10px;
+    padding: 10px;
+  }
+
+  table.affected-tests {
+    th {
+      white-space: nowrap;
+      padding: 5px;
+    }
+    td {
+      padding: 5px;
+    }
+  }
+
+  ul.blames li {
+    margin-bottom: 1em;
+  }
+}

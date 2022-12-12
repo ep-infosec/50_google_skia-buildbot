@@ -1,0 +1,18 @@
+# tasks file for collectd
+- name: Install applications.
+  become: true
+  apt:
+    pkg:
+      - collectd
+      - collectd-core
+      - collectd-utils
+
+- name: Configure collectd
+  become: true
+  copy:
+    src: files/collectd.conf
+    dest: /etc/collectd/collectd.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart_collectd

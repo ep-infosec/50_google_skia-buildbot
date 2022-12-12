@@ -1,0 +1,39 @@
+load("//bazel/go:go_test.bzl", "go_test")
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "gcssource",
+    srcs = ["gcssource.go"],
+    importpath = "go.skia.org/infra/perf/go/file/gcssource",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//go/httputils",
+        "//go/metrics2",
+        "//go/pubsub/sub",
+        "//go/skerr",
+        "//go/sklog",
+        "//perf/go/config",
+        "//perf/go/file",
+        "//perf/go/ingest/filter",
+        "@com_google_cloud_go_pubsub//:pubsub",
+        "@com_google_cloud_go_storage//:storage",
+        "@org_golang_google_api//option",
+        "@org_golang_x_oauth2//google",
+    ],
+)
+
+go_test(
+    name = "gcssource_test",
+    srcs = ["gcssource_manual_test.go"],
+    embed = [":gcssource"],
+    deps = [
+        "//go/emulators/gcp_emulator",
+        "//perf/go/config",
+        "//perf/go/file",
+        "@com_github_stretchr_testify//assert",
+        "@com_github_stretchr_testify//require",
+        "@com_google_cloud_go_pubsub//:pubsub",
+        "@org_golang_google_api//option",
+        "@org_golang_x_oauth2//google",
+    ],
+)

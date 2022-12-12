@@ -1,0 +1,17 @@
+load("//bazel/go:go_test.bzl", "go_test")
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "validation",
+    srcs = ["validation.go"],
+    importpath = "go.skia.org/infra/golden/go/validation",
+    visibility = ["//visibility:public"],
+    deps = ["//go/util"],
+)
+
+go_test(
+    name = "validation_test",
+    srcs = ["validation_test.go"],
+    embed = [":validation"],
+    deps = ["@com_github_stretchr_testify//assert"],
+)

@@ -1,0 +1,23 @@
+load("//bazel/go:go_test.bzl", "go_test")
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "baseapp",
+    srcs = ["baseapp.go"],
+    importpath = "go.skia.org/infra/go/baseapp",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//go/common",
+        "//go/httputils",
+        "//go/sklog",
+        "@com_github_gorilla_mux//:mux",
+        "@com_github_unrolled_secure//:secure",
+    ],
+)
+
+go_test(
+    name = "baseapp_test",
+    srcs = ["baseapp_test.go"],
+    embed = [":baseapp"],
+    deps = ["@com_github_stretchr_testify//require"],
+)

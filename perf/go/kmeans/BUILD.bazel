@@ -1,0 +1,15 @@
+load("//bazel/go:go_test.bzl", "go_test")
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "kmeans",
+    srcs = ["kmeans.go"],
+    importpath = "go.skia.org/infra/perf/go/kmeans",
+    visibility = ["//visibility:public"],
+)
+
+go_test(
+    name = "kmeans_test",
+    srcs = ["kmeans_test.go"],
+    embed = [":kmeans"],
+)

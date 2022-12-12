@@ -1,0 +1,64 @@
+- name: Copy over executable.
+  become: true
+  get_url:
+    url:
+      "http://metadata:{{ all.jumphost_file_server
+      }}/test_machine_monitor/build/{{ ansible_facts['system'] }}/{{
+      ansible_facts['architecture'] }}/test_machine_monitor"
+    dest: /usr/local/bin/test_machine_monitor
+
+- name: Set test_machine_monitor permissions.
+  become: true
+  file:
+    path: /usr/local/bin/test_machine_monitor
+    owner: root
+    group: wheel
+    mode: 0755
+
+- name: Remove any freestanding Swarming install.
+  when: install_test_machine_monitor__start_swarming
+  vars:
+    swarming_launch_plist:
+      ~{{ skolo_account }}/Library/LaunchAgents/org.swarm.bot.plist
+  block:
+    - name: Stop freestanding startup job.
+      # This is idempotent and returns 0, even though it prints an error
+      # message if the job was already unloaded or the file was absent.
+      command: launchctl unload {{ swarming_launch_plist }}
+
+    - name: Remove freestanding startup job.
+      # We'll have TMM start Swarming instead.
+      become: true
+      file:
+        path: '{{ swarming_launch_plist }}'
+        state: absent
+
+- name: Install test_machine_monitor.
+  vars:
+    launch_agents_folder: ~{{ skolo_account }}/Library/LaunchAgents
+    tmm_launch_plist:
+      '{{ launch_agents_folder }}/com.google.skia.test_machine_monitor.plist'
+  block:
+    - name: Make sure LaunchAgents folder is there.
+      file:
+        path: '{{ launch_agents_folder }}'
+        state: directory
+        owner: '{{ skolo_account }}'
+        group: '{{ skolo_group }}'
+        mode: 0755
+
+    - name: Install startup job.
+      template:
+        src: templates/com.google.skia.test_machine_monitor.plist
+        dest: '{{ tmm_launch_plist }}'
+        owner: '{{ skolo_account }}'
+        group: '{{ skolo_group }}'
+        # 0660 required according to https://developer.apple.com/library/archive/documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/CreatingLaunchdJobs.html:
+        mode: 0600
+
+    - name: Have launchd start test_machine_monitor.
+      # This is idempotent and returns 0, even though it prints an error message if
+      # the job was already loaded. If this gets more complex, we can go to
+      # the trouble of using community.general.launchd. We would pass it
+      # "state: reloaded" in this case.
+      command: launchctl load {{ tmm_launch_plist }}

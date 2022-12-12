@@ -1,0 +1,68 @@
+search-page-sk {
+  display: block;
+
+  .top-controls {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    div.buttons {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-content: flex-start;
+
+      button {
+        white-space: nopwrap;
+      }
+    }
+  };
+
+  changelist-controls-sk {
+    display: block;
+    margin-left: 16px;
+  }
+
+  p.summary {
+    margin-left: 16px;
+  }
+
+  pagination-sk {
+    display: block;
+    margin-left: 16px;
+
+    &.top {
+      margin-bottom: 16px;
+    }
+
+    button.prev {
+      margin-left: 0;
+    }
+  }
+
+  digest-details-sk {
+    display: block;
+    border: 1px solid black;
+    margin-left: 16px;
+    margin-bottom: 16px;
+  }
+
+  dialog.help {
+    dt {
+      font-weight: bold;
+      float: left;
+    }
+
+    div.buttons {
+      display: flex;
+      justify-content: flex-end;
+    }
+  }
+
+  digest-details-sk {
+    &.selected {
+      outline: 2px dashed black;
+      outline-offset: 3px;
+    }
+  }
+}

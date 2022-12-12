@@ -1,0 +1,34 @@
+- name: Make sure we have a 'sudo' group
+  group:
+    name: sudo
+    state: present
+
+- name: Allow 'sudo' group to have passwordless sudo
+  become: true
+  lineinfile:
+    dest: /etc/sudoers
+    state: present
+    regexp: '^%sudo'
+    line: '%sudo ALL=(ALL) NOPASSWD: ALL'
+    validate: visudo -cf %s
+
+- name: Add sudo users to sudo group
+  become: true
+  user:
+    name: chrome-bot
+    groups: sudo
+    append: true
+
+- name: Create chrome-bot user.
+  become: true
+  user:
+    name: chrome-bot
+    groups: plugdev,sudo
+    generate_ssh_key: true
+    ssh_key_type: ed25519
+    shell: /bin/bash
+    password: "{{ secrets.skolo_password | password_hash('sha256') }}"
+
+- name:
+    Reset ssh connection to allow user changes to affect 'current login user'
+  meta: reset_connection

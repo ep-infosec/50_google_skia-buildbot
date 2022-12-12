@@ -1,0 +1,24 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+
+go_library(
+    name = "file_reingester_lib",
+    srcs = ["file_reingester.go"],
+    importpath = "go.skia.org/infra/golden/cmd/file_reingester",
+    visibility = ["//visibility:private"],
+    deps = [
+        "//go/common",
+        "//go/fileutil",
+        "//go/gcs",
+        "//go/sklog",
+        "//go/sklog/sklogimpl",
+        "//go/sklog/stdlogging",
+        "@com_google_cloud_go_pubsub//:pubsub",
+        "@com_google_cloud_go_storage//:storage",
+    ],
+)
+
+go_binary(
+    name = "file_reingester",
+    embed = [":file_reingester_lib"],
+    visibility = ["//visibility:public"],
+)

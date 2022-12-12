@@ -1,0 +1,10 @@
+load("//bazel/go:go_test.bzl", "go_test")
+
+go_test(
+    name = "dns_test",
+    srcs = ["dns_test.go"],
+    deps = [
+        "@com_github_miekg_dns//:dns",
+        "@com_github_stretchr_testify//require",
+    ],
+)

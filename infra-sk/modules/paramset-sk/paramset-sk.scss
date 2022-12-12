@@ -1,0 +1,64 @@
+@import 'node_modules/elements-sk/colors.scss';
+
+paramset-sk {
+  td,
+  th {
+    padding: 0.1em;
+  }
+
+  th {
+    text-align: left;
+  }
+
+  div {
+    display: inline-block;
+    padding: 0.2em;
+  }
+
+  .clickable tr:not(:nth-child(1)) th,
+  .clickable div,
+  add-icon-sk {
+    cursor: pointer;
+    color: var(--primary, var(--blue));
+    fill: var(--primary, var(--blue));
+  }
+
+  .clickable tr:not(:nth-child(1)) th:hover,
+  .clickable div:hover {
+    text-decoration: underline;
+  }
+
+  add-icon-sk:hover {
+    border-bottom: solid 2px var(--primary, var(--blue));
+  }
+
+  .clickable_values div {
+    cursor: pointer;
+    color: var(--primary, var(--blue));
+  }
+
+  .clickable div.highlight,
+  .clickable_values div.highlight {
+    color: var(--secondary, var(--orange));
+    animation-duration: 100ms;
+    animation-name: flash;
+    animation-timing-function: linear;
+  }
+
+  .clickable_values div:hover {
+    text-decoration: underline;
+  }
+
+  @keyframes flash {
+    from {
+      background-color: var(--surface, var(--white));
+    }
+    to {
+      background-color: var(--surface-1dp, var(--orange));
+    }
+  }
+
+  tr:nth-child(even) {
+    background-color: var(--surface-1dp, var(--dark-white));
+  }
+}

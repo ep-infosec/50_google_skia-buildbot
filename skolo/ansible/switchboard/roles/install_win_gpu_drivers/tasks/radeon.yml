@@ -1,0 +1,43 @@
+# This file is based on
+# https://skia.googlesource.com/buildbot/+/ddcf7644bee4286f4030978c61d977858d9e80de/skolo/win/ansible/radeon-graphics-driver.yml.
+
+# Install Radeon Graphics Driver.
+
+- name: Create Temp
+  win_file:
+    path: C:\Temp
+    state: directory
+
+# This zip was created by opening the self-extracting exe using Archive Manager on Debian and
+# re-zipping the extracted files as a ZIP archive ("Save As").
+- name: Copy the Radeon driver ZIP to the host
+  win_copy:
+    # Downloaded from
+    # https://www.amd.com/en/support/graphics/radeon-rx-vega-series/radeon-rx-vega-series/radeon-rx-vega-56.
+    # Specific file:
+    # https://drivers.amd.com/drivers/amd-software-adrenalin-edition-22.4.1-win10-win11-april5.exe.
+    src: "{{ win_package_src }}/amd-software-adrenalin-edition-22.4.1-win10-win11-april5.zip"
+    dest: C:\Temp\radeon_gfx.zip
+
+- name: Extract the Radeon driver ZIP
+  win_unzip:
+    src: C:\Temp\radeon_gfx.zip
+    dest: C:\Temp\Radeon
+    delete_archive: true
+
+- name: Install Radeon Graphics Driver
+  # Silent install args based on info displayed for "Setup.exe /?".
+  # TODO(dogben): The graphics driver seems to install OK, but there are errors for other
+  # components. Need to investigate more.
+  win_command: C:\Temp\Radeon\Setup.exe -INSTALL -BOOT
+  ignore_unreachable: true
+
+- name: Wait for reboot after installing driver
+  wait_for_connection:
+    delay: 30 # Give the installer time to finish and reboot.
+    timeout: 180 # Default is 600 seconds.
+
+- name: Cleanup
+  win_file:
+    path: C:\Temp\Radeon
+    state: absent

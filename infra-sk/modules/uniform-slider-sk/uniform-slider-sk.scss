@@ -1,0 +1,18 @@
+@import 'node_modules/elements-sk/themes/color-palette.scss';
+@import 'node_modules/elements-sk/themes/themes.scss';
+
+uniform-slider-sk {
+  display: block;
+  padding: 8px;
+  margin: 0;
+  border: 0;
+
+  input {
+    margin-right: 8px;
+  }
+
+  label {
+    display: flex;
+    align-items: center;
+  }
+}

@@ -1,0 +1,39 @@
+load("//bazel/go:go_test.bzl", "go_test")
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "silence",
+    srcs = ["silence.go"],
+    importpath = "go.skia.org/infra/am/go/silence",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//am/go/note",
+        "//go/ds",
+        "//go/human",
+        "//go/paramtools",
+        "//go/sklog",
+        "@com_google_cloud_go_datastore//:datastore",
+    ],
+)
+
+go_test(
+    name = "silence_test",
+    srcs = ["silence_test.go"],
+    embed = [":silence"],
+    # Datastore tests fail intermittently when running locally (i.e. not on RBE) due to tests
+    # running in parallel against the same Datastore emulator instance:
+    #
+    #     rpc error: code = Aborted desc = too much contention on these datastore entities.
+    #
+    # This is not an issue on RBE because each test target starts its own emulator instance.
+    #
+    # https://docs.bazel.build/versions/master/be/common-definitions.html#common-attributes-tests
+    flaky = True,
+    deps = [
+        "//am/go/note",
+        "//go/ds",
+        "//go/ds/testutil",
+        "//go/paramtools",
+        "@com_github_stretchr_testify//assert",
+    ],
+)

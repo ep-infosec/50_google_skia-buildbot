@@ -1,0 +1,1 @@
+import './bugs-chart-sk';

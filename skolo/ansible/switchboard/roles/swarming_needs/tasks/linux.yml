@@ -1,0 +1,218 @@
+- name: Install tools for Apple devices.
+  # imobiledevice is currently only built for RPIs (arm64).
+  when: swarming_needs__needs_mobile_tools and ( ansible_facts['architecture']|lower == "arm64" )
+  block:
+    - name: Load skia-imobiledevice package.
+      import_role:
+        name: get_ansible_binaries
+      vars:
+        get_ansible_binaries_application: imobiledevice
+
+    - name: Make temp dir to hold skia-imobiledevice package.
+      tempfile:
+        state: directory
+      register: package_dir
+      notify: clean_up_package_dir
+
+    - name: Copy package to host.
+      become: true
+      copy:
+        src:
+          "{{ get_ansible_binaries_directory.path }}/build/{{
+      ansible_facts['system'] }}/{{ ansible_facts['architecture']
+      }}/skia-imobiledevice.deb"
+        dest: '{{ package_dir.path }}/skia-imobiledevice.deb'
+        owner: root
+        group: root
+        mode: '0755'
+
+    # Ansible's apt module doesn't want to remove conflicting packages, no
+    # matter what options I could come up with, so we do it manually.
+    - name: Remove packages that conflict with skia-imobiledevice.
+      become: true
+      apt:
+        state: absent
+        pkg:
+          - libplist3
+          - libusbmuxd6
+          - usbmuxd
+          - ideviceinstaller
+          - ifuse
+          - libimobiledevice6
+        autoremove: true
+
+    - name: Install skia-imobiledevice.
+      become: true
+      apt:
+        deb: '{{ package_dir.path }}/skia-imobiledevice.deb'
+
+- name: Install the rest of swarming needs.
+  when: swarming_needs__needs_mobile_tools
+  block:
+    - name: Install adb and python 2.7.
+      become: true
+      apt:
+        pkg:
+          - adb
+          - aapt
+          - python2.7  # still needed for iOS swarming recipes
+
+    # iOS recipes need a /usr/bin/python2.
+    - name: link /usr/bin/python2 to /usr/bin/python2.7
+      become: true
+      file:
+        src: /usr/bin/python2.7
+        dest: /usr/bin/python2
+        owner: root
+        group: root
+        state: link
+
+    # Our recipes hard-code a specific adb.
+    - name: link adb to /usr/bin/adb.1.0.35
+      become: true
+      file:
+        src: /usr/bin/adb
+        dest: /usr/bin/adb.1.0.35
+        owner: root
+        group: root
+        state: link
+
+    - name: Copy adb key.
+      import_role:
+        name: copy_adbkey
+
+- name: Install python3 modules.
+  become: true
+  apt:
+    pkg:
+      - python3-distutils
+      - python3-certifi
+
+# Recipes need a /usr/bin/python.
+- name: link /usr/bin/python to /usr/bin/python3
+  become: true
+  file:
+    src: /usr/bin/python3
+    dest: /usr/bin/python
+    owner: root
+    group: root
+    state: link
+
+- name: Create /b/s directory
+  become: true
+  file:
+    path: /b/s
+    state: directory
+    recurse: true
+    owner: chrome-bot
+    mode: 0755
+
+- name: Look for /etc/gdm3
+  stat:
+    path: /etc/gdm3
+  register: gdm3_config_directory
+
+- name: Copy gdm3 config to host, which causes chrome-bot to be automatically logged in for Debian 11 systems running Gnome.
+  become: true
+  when: gdm3_config_directory.stat.exists
+  copy:
+    src: files/gdm3_daemon.conf
+    dest: /etc/gdm3/daemon.conf
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Install build tools.
+  when: swarming_needs__can_build
+  become: true
+  apt:
+    pkg:
+      - build-essential
+      - clang-11
+      - cmake
+      - curl
+      - fontconfig
+      - git
+      - libfontconfig-dev
+      - libfreetype6-dev
+      - libgl1-mesa-dev
+      - libglu-dev
+      - libglu1-mesa-dev
+      - libxi-dev
+      - libx11-xcb-dev
+      - make
+      - python
+      - python3
+
+# On boot, the i915 kernal module enables the paranoid performance collection mode by default.
+# To use the VK_INTEL_performance_query extension, this paranoid mode must be disabled.
+# https://www.intel.com/content/www/us/en/developer/articles/technical/enabling-vulkan-vk-intel-performance-query-extension-in-ubuntu.html
+- name: check if /proc/sys/dev/i915/ exists, which means the Intel integrated drivers module is loaded.
+  stat:
+    path: /proc/sys/dev/i915/
+  register: i915_module
+
+- name: Turn off paranoid performance collection mode.
+  become: true
+  when: i915_module.stat.exists
+  copy:
+    src: files/perf_stream_paranoid.conf
+    dest: /etc/sysctl.d/perf_stream_paranoid.conf
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Reload kernel variables so the above file takes effect.
+  become: true
+  when: i915_module.stat.exists
+  command: service procps force-reload
+
+- name: Install libllvm13, which is needed by the Iris Xe drivers.
+  when: i915_module.stat.exists
+  become: true
+  apt:
+    pkg:
+      - libllvm13
+
+- name: Check for newer NVIDIA GPUs
+  shell:
+    # The grep can be expanded to match other GPUs.
+    cmd: lspci -mm -nn 2>&1 | grep "\[10de\].*\[2489\]"
+  args:
+    executable: /bin/bash
+  register: has_recent_nvidia_gpu
+  # Grep will exit with a non-zero return code if it does not match any of
+  # the input. Ansible normally fails the step for that, but we just want to
+  # register the facts, so we ignore errors.
+  ignore_errors: true
+
+- name: Install the latest NVIDIA drivers.
+  when: has_recent_nvidia_gpu.rc == 0
+  become: true
+  apt:
+    pkg:
+      - nvidia-driver
+      - firmware-misc-nonfree
+
+- name: Check for newer AMD GPUs
+  shell:
+    # The grep can be expanded to match other GPUs.
+    cmd: lspci -mm -nn 2>&1 | grep "\[1002\].*\[1636\]"
+  args:
+    executable: /bin/bash
+  register: has_recent_amd_gpu
+  # Grep will exit with a non-zero return code if it does not match any of
+  # the input. Ansible normally fails the step for that, but we just want to
+  # register the facts, so we ignore errors.
+  ignore_errors: true
+
+- name: Install the latest AMD GPU drivers.
+  when: has_recent_amd_gpu.rc == 0
+  become: true
+  apt:
+    pkg:
+      - firmware-amd-graphics
+      - libgl1-mesa-dri
+      - libglx-mesa0
+      - mesa-vulkan-drivers
+      - xserver-xorg-video-all

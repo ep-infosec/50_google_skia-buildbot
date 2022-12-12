@@ -1,0 +1,1 @@
+import './alert-manager-sk';

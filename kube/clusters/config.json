@@ -1,0 +1,42 @@
+{
+    "gitdir": "/tmp",
+    "repo": "https://skia.googlesource.com/k8s-config",
+    "clusters": {
+        "skia-public": {
+            "type": "gke",
+            "zone": "us-central1-a",
+            "project": "skia-public",
+            "context_name": "gke_skia-public_us-central1-a_skia-public"
+        },
+        "skia-corp": {
+            "type": "gke",
+            "zone": "us-central1-a",
+            "project": "google.com:skia-corp",
+            "context_name": "gke_google.com:skia-corp_us-central1-a_skia-corp"
+        },
+        "skia-infra-corp": {
+            "type": "gke",
+            "zone": "us-central1-a",
+            "project": "skia-infra-corp",
+            "context_name": "gke_skia-infra-corp_us-central1-a_skia-infra-corp"
+        },
+        "skia-infra-public": {
+            "type": "gke",
+            "zone": "us-central1-a",
+            "project": "skia-infra-public",
+            "context_name": "gke_skia-infra-public_us-central1-a_skia-infra-public"
+        },
+        "skia-infra-public-dev": {
+            "type": "gke",
+            "zone": "us-central1-a",
+            "project": "skia-infra-public-dev",
+            "context_name": "gke_skia-infra-public-dev_us-central1-a_skia-infra-public-dev"
+        },
+        "skia-switchboard": {
+            "type": "gke",
+            "zone": "us-central1-c",
+            "project": "skia-switchboard",
+            "context_name": "gke_skia-switchboard_us-central1_skia-switchboard"
+        }
+    }
+}

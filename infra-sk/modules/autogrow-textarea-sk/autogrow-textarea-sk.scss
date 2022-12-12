@@ -1,0 +1,17 @@
+@import 'node_modules/elements-sk/themes/color-palette.scss';
+@import 'node_modules/elements-sk/themes/themes.scss';
+
+autogrow-textarea-sk {
+  textarea {
+    resize: none;
+    background-color: var(--surface);
+    color: var(--on-surface);
+    width: 100%;
+  }
+  textarea:focus {
+    outline-color: var(--primary);
+  }
+  textarea::placeholder {
+    color: var(--transparent-overlay);
+  }
+}

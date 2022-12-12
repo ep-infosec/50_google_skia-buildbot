@@ -1,0 +1,22 @@
+@import '../themes/themes.scss';
+
+commit-detail-picker-sk {
+  dialog button {
+    margin: 0 0 16px 0;
+  }
+
+  dialog {
+    color: var(--on-background);
+    background: var(--background);
+    border: solid 1px var(--on-background);
+
+    day-range-sk {
+      display: inline-block;
+    }
+
+    .tiny {
+      margin: 0 0 8px 0;
+      font-size: 12px;
+    }
+  }
+}

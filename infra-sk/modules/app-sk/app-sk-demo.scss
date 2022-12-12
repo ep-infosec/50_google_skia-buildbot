@@ -1,0 +1,18 @@
+.no-decorate {
+  list-style-type: none;
+  padding-left: 10px;
+}
+
+.small-image {
+  max-height: 400px;
+  display: inline-block;
+}
+
+.narrow {
+  width: 20vw;
+}
+
+app-sk {
+  --sidebar-width: 250px;
+  --secondary: var(--green-500);
+}

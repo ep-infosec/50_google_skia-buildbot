@@ -1,0 +1,16 @@
+load("//bazel/go:go_test.bzl", "go_test")
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "human",
+    srcs = ["human.go"],
+    importpath = "go.skia.org/infra/go/human",
+    visibility = ["//visibility:public"],
+    deps = ["//go/sklog"],
+)
+
+go_test(
+    name = "human_test",
+    srcs = ["human_test.go"],
+    embed = [":human"],
+)

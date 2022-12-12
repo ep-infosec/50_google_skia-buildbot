@@ -1,0 +1,241 @@
+@import '../themes/themes.scss';
+
+explore-sk {
+  display: block;
+  padding: 16px;
+
+  h3 {
+    margin: 0.5em 0 0 0;
+  }
+
+  #selections {
+    margin: 0 1em;
+  }
+
+  #commits,
+  #paramset {
+    display: inline-block;
+    margin: 0.5em;
+    overflow-y: auto;
+  }
+
+  #paramset {
+    height: 480px;
+  }
+
+  .formulas {
+    display: block;
+
+    textarea {
+      display: block;
+    }
+  }
+
+  help-icon-sk {
+    fill: var(--primary);
+  }
+
+  .query-parts {
+    display: flex;
+  }
+
+  .query-counts {
+    height: 2.5em;
+  }
+
+  query-values-sk {
+    display: flex;
+    flex-direction: column;
+
+    #values {
+      height: 20em;
+    }
+  }
+
+  #bottomButtons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+  }
+
+  checkbox-sk {
+    display: inline-block;
+  }
+
+  #commits {
+    margin: 1em;
+  }
+
+  #simple_paramset {
+    margin: 1em;
+  }
+
+  #params_and_logentry {
+    display: flex;
+  }
+
+  #percent {
+    margin: 0.6em;
+    font-family: 'Roboto Mono', monospace;
+    font-size: 36px;
+    color: var(--on-surface);
+  }
+
+  #explore.display_query_only .hide_on_query_only {
+    display: none;
+  }
+
+  #explore.display_plot .hide_on_plot {
+    display: none;
+  }
+
+  #explore.display_pivot_table .hide_on_pivot_table {
+    display: none;
+  }
+
+  #explore.display_pivot_plot .hide_on_pivot_plot {
+    display: none;
+  }
+
+  #explore.display_spinner .hide_on_spinner {
+    display: none;
+  }
+
+  #plot {
+    display: block;
+    height: 600px;
+    width: 100%;
+  }
+
+  #spin-overlay {
+    position: relative;
+    display: block;
+  }
+
+  #buttons,
+  #traceButtons,
+  #calcButtons {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    button,
+    checkbox-sk {
+      margin: 0;
+    }
+  }
+
+  #spinner[aria-hidden='true'] {
+    display: none;
+  }
+
+  #spin-container spinner-sk {
+    width: 128px;
+    height: 128px;
+    border-width: 4px;
+  }
+
+  #spin-container {
+    display: none;
+  }
+
+  #spin-container {
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    background: var(--surface-1dp);
+  }
+
+  #trace_id {
+    display: inline-block;
+  }
+
+  json-source-sk {
+    padding: 1em;
+  }
+
+  dialog {
+    padding: 16px;
+    border: solid var(--on-background) 1px;
+    color: var(--on-background);
+    background: var(--background);
+  }
+
+  #help table * {
+    border: 0;
+  }
+
+  #help table {
+    border-spacing: 0.6em;
+  }
+
+  #help table td.mono {
+    font-family: 'Courier New', Courier, monospace;
+  }
+
+  #help h2 {
+    margin-top: 0;
+  }
+
+  #help sup,
+  #help .footnote {
+    font-size: 80%;
+  }
+
+  #help .footnote {
+    padding: 1em;
+  }
+
+  tabs-panel-sk {
+    border-radius: 0;
+  }
+
+  #query-dialog {
+    overflow: auto;
+    width: 50%;
+
+    paramset-sk {
+      display: inline-block;
+
+      div {
+        display: block;
+      }
+    }
+
+    tabs-panel-sk {
+      margin-top: 0;
+      border-top: solid 1px var(--on-surface);
+      background: var(--surface);
+    }
+
+    tabs-sk {
+      display: block;
+      border-bottom: solid 1px;
+      margin-top: 8px;
+
+      button {
+        margin: 0;
+        padding: 4px 4px 0 4px;
+      }
+    }
+
+    .footer {
+      display: flex;
+      justify-content: right;
+    }
+  }
+
+  textarea {
+    background: var(--surface);
+    color: var(--on-surface);
+    border: solid 1px var(--on-surface);
+  }
+
+  #commitsTab[disabled] {
+    display: none;
+  }
+}

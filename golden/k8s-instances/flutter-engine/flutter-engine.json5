@@ -1,0 +1,23 @@
+{
+  code_review_systems: [
+    {
+      id: "github",
+      flavor: "github",
+      github_cred_path: "/var/secrets/github/github_token",
+      github_repo: "flutter/engine",
+      url_template: "https://github.com/flutter/engine/pull/%s"
+    },
+  ],
+  gcs_bucket: "skia-gold-flutter-engine",
+  git_repo_branch: "main",
+  git_repo_url: "https://github.com/flutter/engine",
+  pubsub_project_id: "skia-public",
+  site_url: "https://flutter-engine-gold.skia.org",
+  sql_connection: "root@gold-cockroachdb-public:26234",
+  sql_database: "flutterengine",
+  known_hashes_gcs_path: "skia-gold-flutter-engine/hash_files/gold-flutter-engine-hashes.txt",
+  window_size: 200,
+
+  // These values affect the k8s deployment; they are not read in by the binary.
+  INCLUDE_GITHUB_CREDS: true
+}

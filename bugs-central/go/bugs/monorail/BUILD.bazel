@@ -1,0 +1,30 @@
+load("//bazel/go:go_test.bzl", "go_test")
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "monorail",
+    srcs = ["monorail.go"],
+    importpath = "go.skia.org/infra/bugs-central/go/bugs/monorail",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//bugs-central/go/bugs",
+        "//bugs-central/go/types",
+        "//go/monorail/v3:monorail",
+        "//go/skerr",
+        "//go/sklog",
+        "//go/util",
+    ],
+)
+
+go_test(
+    name = "monorail_test",
+    srcs = ["monorail_test.go"],
+    embed = [":monorail"],
+    deps = [
+        "//bugs-central/go/bugs",
+        "//go/mockhttpclient",
+        "//go/monorail/v3:monorail",
+        "@com_github_gorilla_mux//:mux",
+        "@com_github_stretchr_testify//require",
+    ],
+)

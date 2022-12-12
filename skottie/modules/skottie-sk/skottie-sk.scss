@@ -1,0 +1,201 @@
+@use 'node_modules/jsoneditor/dist/jsoneditor.min.css';
+
+skottie-sk {
+  app-sk {
+    --sidebar-width: 200px;
+
+    display: block;
+    min-height: 100vh;
+  }
+
+  spinner-sk[active] {
+    display: inline-block;
+  }
+
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: solid 1px var(--primary);
+    min-height: 48px;
+    background-color: var(--surface);
+    padding: 0 8px;
+  }
+
+  figure {
+    display: flex;
+    flex-flow: column;
+    position: relative;
+  }
+
+  figure canvas,
+  figure div {
+    border: solid var(--on-background) 1px;
+    margin: 0 auto;
+  }
+
+  .wasm_loading {
+    position: absolute;
+    text-align: center;
+    left: 0;
+    right: 0;
+    top: 20px;
+    bottom: 0;
+    border: none;
+  }
+
+  .wasm_loading > div {
+    border: none;
+  }
+
+  figcaption {
+    align-self: center;
+    font-weight: bold;
+    font-size: 18px;
+    margin: 0.6em;
+    text-align: center;
+
+    div {
+      border: none;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+
+  button.edit-config {
+    display: block;
+  }
+
+  button {
+    text-transform: initial;
+  }
+
+  .loading {
+    display: flex;
+    align-items: center;
+    font-size: 120%;
+    font-weight: bold;
+  }
+
+  .loading span {
+    margin-left: 0.5em;
+  }
+
+  .figures {
+    display: flex;
+    flex-flow: row wrap;
+  }
+
+  .download,
+  .download a {
+    display: inline-block;
+    color: var(--blue);
+  }
+
+  .download a {
+    margin-left: 0.6em;
+  }
+
+  #embed {
+    padding: 1em;
+    border: solid var(--on-surface) 1px;
+    margin: 1em;
+    background: var(--surface);
+  }
+
+  footer {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  footer div {
+    padding: 1em;
+  }
+
+  .controls > * {
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  [hidden] {
+    display: none !important;
+  }
+
+  .scrub {
+    display: block;
+    margin: 8px;
+
+    input {
+      width: 20em;
+    }
+  }
+
+  .library {
+    flex: 1 1 auto;
+  }
+
+  #volume-slider {
+    display: block;
+    margin: 8px;
+
+    input {
+      width: 10em;
+    }
+  }
+
+  #frameInput {
+    width: 5em;
+  }
+}
+
+// The third-party jsoneditor doesn't support darkmode
+// https://github.com/josdejong/jsoneditor/issues/893 so we force the editor
+// back to light mode.
+#json_editor {
+  background: white;
+
+  input {
+    color: black;
+    background: white;
+  }
+
+  tr {
+    background: var(--white);
+  }
+
+  tr:hover {
+    background-color: var(--light-gray);
+  }
+
+  .jsoneditor-contextmenu .jsoneditor-menu li ul .jsoneditor-icon {
+    margin-left: 0;
+  }
+
+  button {
+    /* Prevent clashes with element-sk/buttons.css */
+    padding: 4px;
+    height: 28px;
+    margin: 2px;
+    width: 26px;
+    min-width: initial;
+    transition: initial;
+    box-shadow: initial;
+  }
+
+  .jsoneditor-menu button {
+    min-width: initial;
+    transition: initial;
+    box-shadow: initial;
+  }
+
+  .jsoneditor-contextmenu-root button {
+    width: initial;
+  }
+
+  .jsoneditor-search button {
+    height: 22px;
+    margin: 2px;
+    width: 22px;
+  }
+}

@@ -1,0 +1,52 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+load("//bazel/go:go_test.bzl", "go_test")
+
+go_library(
+    name = "search",
+    srcs = ["search.go"],
+    importpath = "go.skia.org/infra/golden/go/search",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//go/paramtools",
+        "//go/skerr",
+        "//go/sklog",
+        "//go/util",
+        "//golden/go/expectations",
+        "//golden/go/publicparams",
+        "//golden/go/search/query",
+        "//golden/go/sql",
+        "//golden/go/sql/schema",
+        "//golden/go/tiling",
+        "//golden/go/types",
+        "//golden/go/web/frontend",
+        "@com_github_hashicorp_golang_lru//:golang-lru",
+        "@com_github_jackc_pgtype//:pgtype",
+        "@com_github_jackc_pgx_v4//:pgx",
+        "@com_github_jackc_pgx_v4//pgxpool",
+        "@com_github_patrickmn_go_cache//:go-cache",
+        "@io_opencensus_go//trace",
+        "@org_golang_x_sync//errgroup",
+    ],
+)
+
+go_test(
+    name = "search_test",
+    srcs = ["search_test.go"],
+    embed = [":search"],
+    deps = [
+        "//go/paramtools",
+        "//golden/go/expectations",
+        "//golden/go/publicparams",
+        "//golden/go/search/query",
+        "//golden/go/sql",
+        "//golden/go/sql/databuilder",
+        "//golden/go/sql/datakitchensink",
+        "//golden/go/sql/schema",
+        "//golden/go/sql/sqltest",
+        "//golden/go/types",
+        "//golden/go/web/frontend",
+        "@com_github_jackc_pgx_v4//pgxpool",
+        "@com_github_stretchr_testify//assert",
+        "@com_github_stretchr_testify//require",
+    ],
+)

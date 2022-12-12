@@ -1,0 +1,47 @@
+@import '../themes/themes.scss';
+
+cluster-lastn-page-sk {
+  display: block;
+  padding: 16px;
+
+  dialog {
+    z-index: 4;
+    background: var(--background);
+    color: var(--on-background);
+    border: solid 1px var(--on-background);
+  }
+
+  .running {
+    display: flex;
+    align-items: center;
+
+    spinner-sk {
+      width: 12px;
+      height: 12px;
+    }
+  }
+
+  domain-picker-sk {
+    margin-left: 16px;
+  }
+
+  summary p {
+    display: inline-block;
+  }
+
+  .messages {
+    overflow-x: auto;
+    width: 75%;
+    padding: 8px;
+    margin-left: 8px;
+  }
+
+  .messages.error {
+    color: var(--on-error);
+    background: var(--error);
+  }
+
+  p {
+    margin: 8px 0 0 0;
+  }
+}

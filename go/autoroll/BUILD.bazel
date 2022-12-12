@@ -1,0 +1,34 @@
+load("//bazel/go:go_test.bzl", "go_test")
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "autoroll",
+    srcs = ["autoroll.go"],
+    importpath = "go.skia.org/infra/go/autoroll",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//go/buildbucket",
+        "//go/comment",
+        "//go/github",
+        "//go/skerr",
+        "//go/sklog",
+        "//go/util",
+        "@com_github_golang_protobuf//ptypes:go_default_library_gen",
+        "@org_chromium_go_luci//buildbucket/proto",
+    ],
+)
+
+go_test(
+    name = "autoroll_test",
+    srcs = ["autoroll_test.go"],
+    embed = [":autoroll"],
+    deps = [
+        "//go/comment",
+        "//go/deepequal/assertdeep",
+        "//go/github",
+        "@com_github_golang_protobuf//ptypes:go_default_library_gen",
+        "@com_github_stretchr_testify//require",
+        "@io_bazel_rules_go//proto/wkt:timestamp_go_proto",
+        "@org_chromium_go_luci//buildbucket/proto",
+    ],
+)

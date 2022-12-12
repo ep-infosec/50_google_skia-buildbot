@@ -1,0 +1,46 @@
+@import '../themes/themes.scss';
+
+triage-status-sk {
+  button {
+    padding: 0;
+  }
+}
+
+.body-sk.darkmode triage-status-sk {
+  .positive {
+    fill: var(--positive);
+    background: var(--surface);
+
+    .inside_status check-circle-icon-sk {
+      background: var(--surface);
+    }
+  }
+
+  .negative {
+    fill: var(--negative);
+    background: var(--surface);
+
+    .inside_status cancel-icon-sk {
+      background: var(--surface);
+    }
+  }
+
+  .untriaged {
+    fill: var(--untriaged);
+    background: var(--surface);
+
+    .inside_status help-icon-sk {
+      background: var(--surface);
+    }
+  }
+
+  .positive:hover,
+  .negative:hover,
+  .untriaged:hover {
+    background: var(--background);
+
+    .inside_status svg {
+      background: var(--background);
+    }
+  }
+}

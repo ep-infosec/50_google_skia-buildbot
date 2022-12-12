@@ -1,0 +1,22 @@
+{
+  authorized_users: [
+    "google.com",
+    "flutter-try-builder@chops-service-accounts.iam.gserviceaccount.com",
+    "flutter-staging-builder@chops-service-accounts.iam.gserviceaccount.com",
+    "flutter-prod-builder@chops-service-accounts.iam.gserviceaccount.com",
+  ],
+  client_secret_file: "/etc/skia.org/login.json",
+  frontend: {
+    baseRepoURL: "<inherited from git_repo_url>",
+    defaultCorpus: "flutter-engine",
+    title: "Flutter Engine Gold",
+  },
+  prom_port: ":20000",
+  ready_port: ":8000",
+  resources_path: "/usr/local/share/frontend/dist",
+
+  // These values affect the k8s deployment; they are not read in by the binary.
+  K8S_CPU: "100m",
+  K8S_LOGIN_SECRETS: "skia-org-legacy-login-secrets",
+  K8S_MEMORY: "200Mi"
+}

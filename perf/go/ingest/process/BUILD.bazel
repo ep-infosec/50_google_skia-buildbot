@@ -1,0 +1,55 @@
+load("//bazel/go:go_test.bzl", "go_test")
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "process",
+    srcs = ["process.go"],
+    importpath = "go.skia.org/infra/perf/go/ingest/process",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//go/metrics2",
+        "//go/paramtools",
+        "//go/query",
+        "//go/skerr",
+        "//go/sklog",
+        "//perf/go/builders",
+        "//perf/go/config",
+        "//perf/go/file",
+        "//perf/go/git",
+        "//perf/go/ingest/parser",
+        "//perf/go/ingestevents",
+        "//perf/go/tracestore",
+        "//perf/go/tracing",
+        "@com_google_cloud_go_pubsub//:pubsub",
+        "@org_golang_google_api//option",
+        "@org_golang_x_oauth2//google",
+    ],
+)
+
+go_test(
+    name = "process_test",
+    srcs = ["process_manual_test.go"],
+    data = [
+        "//perf/integration:data",
+        "//perf/migrations:cockroachdb",
+    ],
+    embed = [":process"],
+    # This test requires the GOOGLE_APPLICATION_CREDENTIALS environment variable to be set, which
+    # is unset when running on RBE (e.g. with --config=remote).
+    tags = ["no-remote"],
+    deps = [
+        "//go/emulators",
+        "//go/emulators/gcp_emulator",
+        "//go/metrics2",
+        "//go/paramtools",
+        "//go/testutils",
+        "//perf/go/config",
+        "//perf/go/ingestevents",
+        "//perf/go/sql/sqltest",
+        "@com_github_stretchr_testify//assert",
+        "@com_github_stretchr_testify//require",
+        "@com_google_cloud_go_pubsub//:pubsub",
+        "@org_golang_google_api//option",
+        "@org_golang_x_oauth2//google",
+    ],
+)

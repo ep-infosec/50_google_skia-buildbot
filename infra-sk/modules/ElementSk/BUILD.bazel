@@ -1,0 +1,30 @@
+load("//infra-sk:index.bzl", "karma_test", "ts_library")
+
+karma_test(
+    name = "elementsk_test",
+    src = "ElementSk_test.ts",
+    deps = [
+        ":elementsk_ts_lib",
+        "@npm//@types/chai",
+        "@npm//chai",
+        "@npm//elements-sk",
+        "@npm//lit-html",
+    ],
+)
+
+ts_library(
+    name = "elementsk_ts_lib",
+    srcs = ["ElementSk.ts"],
+    visibility = ["//visibility:public"],
+    deps = [
+        "@npm//elements-sk",
+        "@npm//lit-html",
+    ],
+)
+
+ts_library(
+    name = "index_ts_lib",
+    srcs = ["index.ts"],
+    visibility = ["//visibility:public"],
+    deps = [":elementsk_ts_lib"],
+)

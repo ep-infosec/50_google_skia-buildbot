@@ -1,0 +1,66 @@
+load("//infra-sk:index.bzl", "karma_test", "sk_demo_page_server", "sk_element", "sk_element_puppeteer_test", "sk_page")
+
+sk_demo_page_server(
+    name = "demo_page_server",
+    sk_page = ":theme-chooser-sk-demo",
+)
+
+sk_element(
+    name = "theme-chooser-sk",
+    sass_deps = [
+        "//infra-sk:themes_sass_lib",
+        "@npm//:node_modules/elements-sk/icon/icon-sk.scss",
+    ],
+    sass_srcs = ["theme-chooser-sk.scss"],
+    ts_deps = [
+        "//infra-sk/modules/ElementSk:index_ts_lib",
+        "@npm//elements-sk",
+        "@npm//lit-html",
+    ],
+    ts_srcs = [
+        "index.ts",
+        "theme-chooser-sk.ts",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+sk_page(
+    name = "theme-chooser-sk-demo",
+    html_file = "theme-chooser-sk-demo.html",
+    sass_deps = [
+        "//infra-sk:themes_sass_lib",
+    ],
+    scss_entry_point = "theme-chooser-sk-demo.scss",
+    sk_element_deps = [
+        ":theme-chooser-sk",
+        "//infra-sk/modules/app-sk",
+    ],
+    ts_deps = [
+        "@npm//common-sk",
+        "@npm//lit-html",
+        "@npm//elements-sk",
+    ],
+    ts_entry_point = "theme-chooser-sk-demo.ts",
+)
+
+sk_element_puppeteer_test(
+    name = "theme-chooser-sk_puppeteer_test",
+    src = "theme-chooser-sk_puppeteer_test.ts",
+    sk_demo_page_server = ":demo_page_server",
+    deps = [
+        "//puppeteer-tests:util_ts_lib",
+        "@npm//@types/chai",
+        "@npm//chai",
+    ],
+)
+
+karma_test(
+    name = "theme-chooser-sk_test",
+    src = "theme-chooser-sk_test.ts",
+    deps = [
+        ":theme-chooser-sk",
+        "//infra-sk/modules:test_util_ts_lib",
+        "@npm//@types/chai",
+        "@npm//chai",
+    ],
+)

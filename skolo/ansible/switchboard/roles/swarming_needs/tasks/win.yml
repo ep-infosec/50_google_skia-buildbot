@@ -1,0 +1,43 @@
+- name: Install Python 3
+  win_package:
+    # Reference: https://docs.python.org/3.9/using/windows.html#installing-without-ui
+    path: https://www.python.org/ftp/python/3.9.7/python-3.9.7-amd64.exe
+    arguments:
+      - /quiet
+      - 'TargetDir={{ win_python3_path }}'
+      - PrependPath=1
+      - Include_launcher=0
+    state: present
+
+- name: Install pywin32
+  win_command: "{{ win_python3_path }}\\Scripts\\pip.exe install pywin32"
+
+# The below tasks were copied from
+# https://skia.googlesource.com/buildbot/+/ddcf7644bee4286f4030978c61d977858d9e80de/skolo/win/ansible/skolo-credentials.yml.
+
+- name: Create empty C:\.boto file
+  win_file:
+    path: C:\.boto
+    state: touch
+
+- name: Create empty C:\Users\chrome-bot\.boto file
+  win_file:
+    path: C:\Users\chrome-bot\.boto
+    state: touch
+
+- name: Create C:\swarming_config directory
+  win_file:
+    path: C:\swarming_config
+    state: directory
+
+- name: Copy oauth2 config file
+  win_template:
+    src: templates/oauth2_access_token_config.json
+    dest: C:\swarming_config\oauth2_access_token_config.json
+
+- name: Stop Swarming from running on its own.
+  win_environment:
+    name: SWARMING_EXTERNAL_BOT_SETUP
+    level: machine
+    state: present
+    value: '1'

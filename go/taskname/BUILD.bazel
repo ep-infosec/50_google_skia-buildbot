@@ -1,0 +1,21 @@
+load("//bazel/go:go_test.bzl", "go_test")
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "taskname",
+    srcs = [
+        "mock_task_name_schema.go",
+        "task_name_schema.go",
+        "task_name_schema_gen.go",
+    ],
+    importpath = "go.skia.org/infra/go/taskname",
+    visibility = ["//visibility:public"],
+    deps = ["@com_github_stretchr_testify//mock"],
+)
+
+go_test(
+    name = "taskname_test",
+    srcs = ["task_name_schema_test.go"],
+    embed = [":taskname"],
+    deps = ["@com_github_stretchr_testify//require"],
+)

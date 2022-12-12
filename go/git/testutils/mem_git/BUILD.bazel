@@ -1,0 +1,32 @@
+load("//bazel/go:go_test.bzl", "go_test")
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "mem_git",
+    srcs = ["mem.go"],
+    importpath = "go.skia.org/infra/go/git/testutils/mem_git",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//go/git",
+        "//go/git/git_common",
+        "//go/gitstore",
+        "//go/sktest",
+        "//go/testutils",
+        "//go/util",
+        "//go/vcsinfo",
+        "@com_github_stretchr_testify//require",
+    ],
+)
+
+go_test(
+    name = "mem_git_test",
+    srcs = ["mem_test.go"],
+    embed = [":mem_git"],
+    deps = [
+        "//go/deepequal/assertdeep",
+        "//go/git",
+        "//go/gitstore",
+        "//go/gitstore/mem_gitstore",
+        "@com_github_stretchr_testify//require",
+    ],
+)

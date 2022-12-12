@@ -1,0 +1,24 @@
+load("//bazel/go:go_test.bzl", "go_test")
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "sobel",
+    srcs = ["sobel.go"],
+    importpath = "go.skia.org/infra/gold-client/go/imgmatching/sobel",
+    visibility = ["//visibility:public"],
+    deps = ["//gold-client/go/imgmatching/fuzzy"],
+)
+
+go_test(
+    name = "sobel_test",
+    srcs = ["sobel_test.go"],
+    data = glob(["test/**"]),
+    embed = [":sobel"],
+    deps = [
+        "//gold-client/go/imgmatching/fuzzy",
+        "//gold-client/go/mocks",
+        "//golden/go/image/text",
+        "@com_github_stretchr_testify//assert",
+        "@com_github_stretchr_testify//require",
+    ],
+)

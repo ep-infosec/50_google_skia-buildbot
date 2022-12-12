@@ -1,0 +1,34 @@
+{
+    "URL": "https://flutter-flutter-perf.skia.org/",
+    "contact": "https://mail.google.com/chat/u/0/?zx=s88snihcl7ie#chat/space/AAAAm69vf-M",
+    "auth_config": {
+        "header_name": "X-WEBAUTH-USER",
+        "login_url": "https://skia.org/login/",
+        "logout_url": "https://skia.org/logout/"
+    },
+    "data_store_config": {
+        "datastore_type": "cockroachdb",
+        "connection_string": "postgresql://root@perf-cockroachdb-public:26257/flutter_flutter2?sslmode=disable",
+        "tile_size": 4096
+    },
+    "ingestion_config": {
+        "source_config": {
+            "source_type": "gcs",
+            "project": "skia-public",
+            "topic": "perf-ingestion-flutter-flutter2",
+            "subscription": "perf-ingestion-flutter-flutter2-cdb-prod",
+            "sources": [
+                "gs://flutter-skia-perf-prod/flutter-flutter"
+            ],
+            "reject_if_name_matches": ".lock$"
+        },
+        "branches": [],
+        "file_ingestion_pubsub_topic_name": ""
+    },
+    "git_repo_config": {
+        "url": "https://github.com/flutter/flutter",
+        "dir": "/tmp/flutter-flutter",
+        "debounce_commit_url": false,
+        "commit_url": "%s/commit/%s"
+    }
+}

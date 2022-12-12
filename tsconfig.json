@@ -1,0 +1,47 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "esModuleInterop": true,
+    "module": "commonjs",
+    "lib": ["DOM", "ES2017"],
+    "noImplicitAny": true,
+    "inlineSourceMap": true,
+    "inlineSources": true,
+    "strict": true,
+    "target": "es2017",
+    "types": ["mocha", "node"],
+    "rootDirs": [
+      ".",
+      // These are necessary for relative imports to work under the ts_project Bazel rule. See
+      // https://bazelbuild.github.io/rules_nodejs/TypeScript.html#ts_project.
+      "./bazel-out/host/bin",
+      "./bazel-out/darwin-fastbuild/bin",
+      "./bazel-out/darwin_arm64-fastbuild/bin",
+      "./bazel-out/k8-fastbuild/bin",
+      "./bazel-out/x64_windows-fastbuild/bin",
+      "./bazel-out/darwin-dbg/bin",
+      "./bazel-out/k8-dbg/bin",
+      "./bazel-out/x64_windows-dbg/bin",
+      // This very important path is necessary due to a workaround in rules_nodejs for an upstream
+      // TypeScript bug, and due to the fact that rules_docker v0.23.0 or newer now uses Bazel's
+      // "transitions" feature, which affects these paths.
+      //
+      // See https://github.com/bazelbuild/rules_nodejs/issues/3284 for the full details and
+      // debugging instructions.
+      "./bazel-out/k8-fastbuild-ST-4a519fd6d3e4/bin",
+    ],
+  },
+  "exclude": [
+    // Exclude the //_bazel_* symlinks. This Prevents the following VSCode error:
+    //
+    //     To enable project-wide JavaScript/TypeScript language features, exclude large folders
+    //     with source files that you do not work on.
+    //
+    // The below excludes do not affect the Bazel build because these paths are not visible to
+    // build actions.
+    "./_bazel_bin",
+    "./_bazel_buildbot",
+    "./_bazel_out",
+    "./_bazel_testlogs",
+  ],
+}

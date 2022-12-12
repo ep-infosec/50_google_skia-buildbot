@@ -1,0 +1,22 @@
+load("//bazel/go:go_test.bzl", "go_test")
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "machine",
+    srcs = ["machine.go"],
+    importpath = "go.skia.org/infra/machine/go/machine",
+    visibility = ["//visibility:public"],
+    deps = ["//go/now"],
+)
+
+go_test(
+    name = "machine_test",
+    srcs = ["machine_test.go"],
+    embed = [":machine"],
+    deps = [
+        "//go/deepequal/assertdeep",
+        "//go/now",
+        "@com_github_stretchr_testify//assert",
+        "@com_github_stretchr_testify//require",
+    ],
+)

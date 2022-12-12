@@ -1,0 +1,19 @@
+load("//bazel/go:go_test.bzl", "go_test")
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "ring",
+    srcs = ["ring.go"],
+    importpath = "go.skia.org/infra/go/ring",
+    visibility = ["//visibility:public"],
+)
+
+go_test(
+    name = "ring_test",
+    srcs = ["ring_test.go"],
+    embed = [":ring"],
+    deps = [
+        "//go/deepequal/assertdeep",
+        "@com_github_stretchr_testify//require",
+    ],
+)

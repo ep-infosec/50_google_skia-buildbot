@@ -1,0 +1,18 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "frontend",
+    srcs = ["types.go"],
+    importpath = "go.skia.org/infra/golden/go/web/frontend",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//go/httputils",
+        "//go/paramtools",
+        "//go/skerr",
+        "//golden/go/expectations",
+        "//golden/go/ignore",
+        "//golden/go/tiling",
+        "//golden/go/types",
+        "//golden/go/validation",
+    ],
+)

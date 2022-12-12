@@ -1,0 +1,37 @@
+# Hosts in win-03 subnet.
+all:
+  vars:
+    swarming_server: https://chromium-swarm.appspot.com
+  children:
+    # TODO(dogben): Would be nice to use PyWin32 to identify the GPU, then use group_by to run the
+    # correct playbook.
+    broadwell:
+      hosts:
+        skia-e-win-340:
+        skia-e-win-341:
+        skia-e-win-342:
+        skia-e-win-343:
+        skia-e-win-344:
+        skia-e-win-345:
+    nvidia:
+      hosts:
+        skia-e-win-301:
+        skia-e-win-302:
+        skia-e-win-304:
+        skia-e-win-305:
+    radeon:
+      hosts:
+        skia-e-win-303:
+        skia-e-win-306:
+        skia-e-win-310:
+        skia-e-win-311:
+        skia-e-win-312:
+    skylake:
+      hosts:
+        skia-e-win-346:
+        skia-e-win-347:
+        skia-e-win-348:
+        skia-e-win-349:
+        skia-e-win-353:
+        skia-e-win-354:
+        skia-e-win-355:

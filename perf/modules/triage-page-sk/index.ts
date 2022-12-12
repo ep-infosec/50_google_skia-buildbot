@@ -1,0 +1,1 @@
+import './triage-page-sk';

@@ -1,0 +1,42 @@
+@import '../themes/themes.scss';
+
+cluster-page-sk {
+  display: block;
+  padding: 16px;
+
+  algo-select-sk {
+    max-width: 10em;
+    display: block;
+  }
+
+  summary h2 {
+    display: inline-block;
+  }
+
+  div#inputs > * {
+    display: block;
+    margin: 1em;
+  }
+  div#inputs > label > input {
+    display: block;
+    background: var(--surface);
+    color: var(--on-surface);
+    border: solid 1px var(--on-surface);
+  }
+
+  .query-action {
+    display: flex;
+  }
+
+  paramset-sk div {
+    display: block;
+  }
+
+  sort-sk[target='clusters'] button {
+    margin-right: 8px;
+  }
+
+  #selections {
+    margin-left: 8px;
+  }
+}

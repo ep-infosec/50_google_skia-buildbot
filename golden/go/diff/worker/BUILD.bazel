@@ -1,0 +1,49 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+load("//bazel/go:go_test.bzl", "go_test")
+
+go_library(
+    name = "worker",
+    srcs = ["worker2.go"],
+    importpath = "go.skia.org/infra/golden/go/diff/worker",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//go/metrics2",
+        "//go/now",
+        "//go/paramtools",
+        "//go/skerr",
+        "//go/sklog",
+        "//go/util",
+        "//golden/go/diff",
+        "//golden/go/sql",
+        "//golden/go/sql/schema",
+        "//golden/go/types",
+        "@com_github_hashicorp_golang_lru//:golang-lru",
+        "@com_github_jackc_pgtype//:pgtype",
+        "@com_github_jackc_pgx_v4//:pgx",
+        "@com_github_jackc_pgx_v4//pgxpool",
+        "@com_github_patrickmn_go_cache//:go-cache",
+        "@io_opencensus_go//trace",
+    ],
+)
+
+go_test(
+    name = "worker_test",
+    srcs = ["worker2_test.go"],
+    embed = [":worker"],
+    deps = [
+        "//go/now",
+        "//go/paramtools",
+        "//go/repo_root",
+        "//go/testutils",
+        "//golden/go/diff/mocks",
+        "//golden/go/sql",
+        "//golden/go/sql/databuilder",
+        "//golden/go/sql/datakitchensink",
+        "//golden/go/sql/schema",
+        "//golden/go/sql/sqltest",
+        "//golden/go/types",
+        "@com_github_jackc_pgx_v4//pgxpool",
+        "@com_github_stretchr_testify//assert",
+        "@com_github_stretchr_testify//require",
+    ],
+)

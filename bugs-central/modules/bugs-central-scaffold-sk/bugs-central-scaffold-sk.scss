@@ -1,0 +1,27 @@
+@import 'node_modules/elements-sk/colors.scss';
+@import '../style.scss';
+
+bugs-central-scaffold-sk {
+  nav {
+    display:flex;
+    flex-direction: column;
+
+    a {
+      padding: 16px 0px;
+      text-decoration: none;
+    }
+
+    span {
+      padding: 0 8px;
+      vertical-align: middle;
+      white-space: nowrap;
+    }
+  }
+
+  app-sk, app-sk > aside {
+    aside {
+      border-right: 1px solid var(--on-background);
+    }
+    --content-horiz-padding: 32px;
+  }
+}

@@ -1,0 +1,69 @@
+// This selector includes ".filter-dialog" to avoid overriding the styles of
+// the nested <query-dialog-sk/> (e.g. both define styles for the classes
+// "content" and "buttons").
+//
+// This works because the <div class=filter-dialog> and <query-dialog-sk/>
+// elements in this component are siblings, not ancestors.
+filter-dialog-sk .filter-dialog {
+  > .content {
+    min-width: 500px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  label, .label {
+    display: block;
+    font-weight: bold;
+    margin-top: 24px;
+    margin-bottom: 8px;
+
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+
+  .numeric-param {
+    display: flex;
+    flex-direction: row;
+
+    input[type=range] {
+      flex-grow: 1;
+    }
+
+    input[type=number] {
+      width: 50px;
+    }
+  }
+
+  .buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    margin-top: 16px;
+
+    button {
+      margin: 0 0 0 16px;
+    }
+  }
+
+  select {
+    // TODO(lovisolo): Make this the default font size for all <select>s in Gold.
+    font-size: 16px; // Same font size as the document body.
+
+    margin: 0;
+  }
+
+  checkbox-sk {
+    margin: 24px 0 8px 0;
+
+    label {
+      display: flex;
+      flex-direction: row;
+      margin: 0;
+    }
+
+    span.label {
+      margin: 0;
+    }
+  }
+}

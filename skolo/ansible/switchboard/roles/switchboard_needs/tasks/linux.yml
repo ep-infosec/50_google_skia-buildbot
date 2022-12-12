@@ -1,0 +1,6 @@
+- name: Install applications.
+  become: true
+  apt:
+    pkg:
+      - pciutils # for the lspci util, to probe GPUs
+      - rsync

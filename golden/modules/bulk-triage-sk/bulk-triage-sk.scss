@@ -1,0 +1,37 @@
+@import 'node_modules/elements-sk/colors.scss';
+@import '../colors';
+
+bulk-triage-sk {
+
+  button {
+    &.selected {
+      background-color: var(--dark-white);
+      border: none;
+      box-shadow: none;
+    }
+
+    &.positive {
+      &.selected check-circle-icon-sk {
+        fill: var(--triaged-positive);
+      }
+    }
+
+    &.negative {
+      &.selected cancel-icon-sk {
+        fill: var(--triaged-negative);
+      }
+    }
+
+    &.untriaged {
+      &.selected help-icon-sk {
+        fill: var(--untriaged);
+      }
+    }
+
+    &.closest {
+      &.selected view-agenda-icon-sk {
+        fill: #1F78B4;
+      }
+    }
+  }
+}

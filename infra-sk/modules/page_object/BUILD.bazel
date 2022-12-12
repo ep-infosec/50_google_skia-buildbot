@@ -1,0 +1,54 @@
+load("//infra-sk:index.bzl", "karma_test", "nodejs_test", "ts_library")
+
+karma_test(
+    name = "page_object_element_karma_test",
+    src = "page_object_element_karma_test.ts",
+    deps = [
+        ":page_object_element_test_cases_ts_lib",
+        ":page_object_element_ts_lib",
+    ],
+)
+
+nodejs_test(
+    name = "page_object_element_nodejs_test",
+    src = "page_object_element_nodejs_test.ts",
+    deps = [
+        ":page_object_element_test_cases_ts_lib",
+        ":page_object_element_ts_lib",
+        "//puppeteer-tests:util_ts_lib",
+        "@npm//@types/express",
+        "@npm//express",
+        "@npm//puppeteer",
+    ],
+)
+
+ts_library(
+    name = "page_object_element_test_cases_ts_lib",
+    srcs = ["page_object_element_test_cases.ts"],
+    visibility = ["//visibility:public"],
+    deps = [
+        ":page_object_element_ts_lib",
+        "@npm//@types/chai",
+        "@npm//chai",
+    ],
+)
+
+ts_library(
+    name = "page_object_element_ts_lib",
+    srcs = ["page_object_element.ts"],
+    visibility = ["//visibility:public"],
+    deps = [
+        "//infra-sk/modules:async_ts_lib",
+        "@npm//puppeteer",
+    ],
+)
+
+ts_library(
+    name = "page_object_ts_lib",
+    srcs = ["page_object.ts"],
+    visibility = ["//visibility:public"],
+    deps = [
+        ":page_object_element_ts_lib",
+        "@npm//puppeteer",
+    ],
+)

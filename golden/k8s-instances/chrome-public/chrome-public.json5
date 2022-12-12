@@ -1,0 +1,22 @@
+{
+  code_review_systems: [
+    {
+      id: "gerrit",
+      flavor: "gerrit",
+      gerrit_url: "https://chromium-review.googlesource.com",
+      url_template: "https://chromium-review.googlesource.com/%s"
+    },
+  ],
+  gcs_bucket: "skia-gold-chrome",
+  git_repo_branch: "main",
+  git_repo_url: "https://chromium.googlesource.com/chromium/src",
+  pubsub_project_id: "skia-public",
+  site_url: "https://chrome-public-gold.skia.org",
+  sql_connection: "root@gold-cockroachdb-public:26234",
+  sql_database: "chrome",
+  known_hashes_gcs_path: "skia-gold-chrome/hash_files/gold-chrome-hashes.txt",
+  window_size: 512,
+
+  // These values affect the k8s deployment; they are not read in by the binary.
+  INCLUDE_GITHUB_CREDS: false
+}

@@ -1,0 +1,46 @@
+load("//bazel/go:go_test.bzl", "go_test")
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "repograph",
+    srcs = [
+        "graph.go",
+        "local.go",
+        "mem.go",
+    ],
+    importpath = "go.skia.org/infra/go/git/repograph",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//go/git",
+        "//go/metrics2",
+        "//go/skerr",
+        "//go/sklog",
+        "//go/timer",
+        "//go/util",
+        "//go/vcsinfo",
+        "@com_github_willf_bitset//:bitset",
+    ],
+)
+
+go_test(
+    name = "repograph_test",
+    srcs = [
+        "graph_test.go",
+        "local_serialize_test.go",
+        "local_test.go",
+        "mem_test.go",
+    ],
+    embed = [":repograph"],
+    deps = [
+        "//bazel/external/cipd/git",
+        "//go/deepequal/assertdeep",
+        "//go/git",
+        "//go/git/repograph/shared_tests",
+        "//go/git/testutils",
+        "//go/sklog",
+        "//go/testutils",
+        "//go/util",
+        "//go/vcsinfo",
+        "@com_github_stretchr_testify//require",
+    ],
+)

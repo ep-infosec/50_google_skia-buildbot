@@ -1,0 +1,29 @@
+load("//bazel/go:go_test.bzl", "go_test")
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "notify",
+    srcs = ["notify.go"],
+    importpath = "go.skia.org/infra/perf/go/notify",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//email/go/emailclient",
+        "//go/now",
+        "//go/sklog",
+        "//perf/go/alerts",
+        "//perf/go/clustering2",
+        "//perf/go/git",
+        "//perf/go/stepfit",
+    ],
+)
+
+go_test(
+    name = "notify_test",
+    srcs = ["notify_test.go"],
+    embed = [":notify"],
+    deps = [
+        "//go/now",
+        "//perf/go/alerts",
+        "@com_github_stretchr_testify//assert",
+    ],
+)

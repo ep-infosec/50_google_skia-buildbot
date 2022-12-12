@@ -1,0 +1,21 @@
+query-dialog-sk {
+  .content {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .selection-summary {
+    min-width: 300px;
+    margin-left: 8px;
+  }
+
+  paramset-sk div {
+    display: block;
+  }
+
+  .buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+  }
+}

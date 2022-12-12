@@ -1,0 +1,48 @@
+load("//infra-sk:index.bzl", "sk_demo_page_server", "sk_element", "sk_element_puppeteer_test", "sk_page", "ts_library")
+
+sk_demo_page_server(
+    name = "demo_page_server",
+    sk_page = ":task-driver-sk-demo",
+)
+
+sk_element(
+    name = "task-driver-sk",
+    sass_deps = [
+        "@npm//:node_modules/elements-sk/colors.scss",
+    ],
+    sass_srcs = ["task-driver-sk.scss"],
+    ts_deps = [
+        "//infra-sk/modules:linkify_ts_lib",
+        "//task_driver/modules/json:index_ts_lib",
+        "@npm//common-sk",
+        "@npm//elements-sk",
+        "@npm//lit-html",
+    ],
+    ts_srcs = [
+        "index.ts",
+        "task-driver-sk.ts",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+sk_page(
+    name = "task-driver-sk-demo",
+    html_file = "task-driver-sk-demo.html",
+    sk_element_deps = [":task-driver-sk"],
+    ts_deps = [":test_data_ts_lib"],
+    ts_entry_point = "task-driver-sk-demo.ts",
+)
+
+ts_library(
+    name = "test_data_ts_lib",
+    srcs = ["test_data.ts"],
+    visibility = ["//visibility:public"],
+    deps = ["//task_driver/modules/json:index_ts_lib"],
+)
+
+sk_element_puppeteer_test(
+    name = "task-driver-sk_puppeteer_test",
+    src = "task-driver-sk_puppeteer_test.ts",
+    sk_demo_page_server = ":demo_page_server",
+    deps = ["//puppeteer-tests:util_ts_lib"],
+)

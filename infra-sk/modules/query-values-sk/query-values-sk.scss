@@ -1,0 +1,21 @@
+@import 'node_modules/elements-sk/themes/color-palette.scss';
+@import 'node_modules/elements-sk/themes/themes.scss';
+@import 'node_modules/elements-sk/checkbox-sk/checkbox-sk.scss';
+@import 'node_modules/elements-sk/multi-select-sk/multi-select-sk.scss';
+
+query-values-sk {
+  #regex ~ #values,
+  #regex[checked] + #regexValue {
+    display: inline-block;
+  }
+
+  #regex[checked] ~ #values,
+  #regex + #regexValue {
+    display: none;
+  }
+
+  multi-select-sk {
+    max-height: 20em;
+    overflow-y: auto;
+  }
+}

@@ -1,0 +1,34 @@
+load("//bazel/go:go_test.bzl", "go_test")
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "login",
+    srcs = ["login.go"],
+    importpath = "go.skia.org/infra/go/login",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//go/allowed",
+        "//go/httputils",
+        "//go/secret",
+        "//go/skerr",
+        "//go/sklog",
+        "//go/util",
+        "@com_github_gorilla_securecookie//:securecookie",
+        "@org_golang_google_api//oauth2/v2:oauth2",
+        "@org_golang_x_oauth2//:oauth2",
+        "@org_golang_x_oauth2//google",
+    ],
+)
+
+go_test(
+    name = "login_test",
+    srcs = ["login_test.go"],
+    embed = [":login"],
+    deps = [
+        "//go/deepequal/assertdeep",
+        "//go/secret",
+        "//go/secret/mocks",
+        "@com_github_stretchr_testify//assert",
+        "@com_github_stretchr_testify//require",
+    ],
+)

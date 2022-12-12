@@ -1,0 +1,17 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+load("//bazel/go:go_test.bzl", "go_test")
+
+go_library(
+    name = "gpus",
+    srcs = ["gpus.go"],
+    importpath = "go.skia.org/infra/go/gpus",
+    visibility = ["//visibility:public"],
+    deps = ["//go/util_generics"],
+)
+
+go_test(
+    name = "gpus_test",
+    srcs = ["gpus_test.go"],
+    embed = [":gpus"],
+    deps = ["@com_github_stretchr_testify//assert"],
+)

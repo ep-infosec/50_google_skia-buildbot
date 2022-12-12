@@ -1,0 +1,21 @@
+load("//bazel/go:go_test.bzl", "go_test")
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "parser",
+    srcs = ["parser.go"],
+    importpath = "go.skia.org/infra/android_ingest/go/parser",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//go/metrics2",
+        "//go/sklog",
+        "//perf/go/ingest/format",
+    ],
+)
+
+go_test(
+    name = "parser_test",
+    srcs = ["parser_test.go"],
+    embed = [":parser"],
+    deps = ["@com_github_stretchr_testify//assert"],
+)

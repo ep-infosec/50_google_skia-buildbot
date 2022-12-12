@@ -1,0 +1,13 @@
+- hosts: all_win
+  user: chrome-bot
+  gather_facts: true
+
+  roles:
+    - set_win_skolo_settings
+    - install_win_gpu_drivers
+    - copy_authorized_keys
+    - copy_service_account_key
+    - swarming_needs
+    - install_test_machine_monitor
+    - install_win_graphics_tools
+    - install_vnc_server

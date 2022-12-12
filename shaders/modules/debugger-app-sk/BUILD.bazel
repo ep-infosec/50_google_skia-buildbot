@@ -1,0 +1,98 @@
+load(
+    "//infra-sk:index.bzl",
+    "karma_test",
+    "sk_demo_page_server",
+    "sk_element",
+    "sk_element_puppeteer_test",
+    "sk_page",
+    "ts_library",
+)
+
+sk_demo_page_server(
+    name = "demo_page_server",
+    sk_page = ":debugger-app-sk-demo",
+    static_assets = {
+        "/dist": [
+            "//shaders/wasm_libs:version.js",
+        ],
+    },
+)
+
+sk_element(
+    name = "debugger-app-sk",
+    sass_deps = [
+        "//shaders/modules/themes:themes_sass_lib",
+        "@npm//:node_modules/codemirror/lib/codemirror.css",
+        "@npm//:node_modules/codemirror/theme/ambiance.css",
+        "@npm//:node_modules/codemirror/theme/base16-light.css",
+    ],
+    sass_srcs = ["debugger-app-sk.scss"],
+    sk_element_deps = [
+        "//infra-sk/modules/theme-chooser-sk",
+        "//infra-sk/modules/app-sk",
+    ],
+    ts_deps = [
+        "//infra-sk/modules/ElementSk:index_ts_lib",
+        "//shaders/modules/debug-trace-player:debug-trace-player_ts_lib",
+        "//shaders/modules/debug-trace:debug-trace_ts_lib",
+        "//shaders/modules/sksl-constants:sksl-constants_ts_lib",
+        "@npm//@types/codemirror",
+        "@npm//codemirror",
+        "@npm//elements-sk",
+        "@npm//lit-html",
+        "@npm//common-sk",
+    ],
+    ts_srcs = [
+        "index.ts",
+        "debugger-app-sk.ts",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+sk_page(
+    name = "debugger-app-sk-demo",
+    html_file = "debugger-app-sk-demo.html",
+    scss_entry_point = "debugger-app-sk-demo.scss",
+    sk_element_deps = [":debugger-app-sk"],
+    ts_entry_point = "debugger-app-sk-demo.ts",
+)
+
+sk_element_puppeteer_test(
+    name = "debugger-app-sk_puppeteer_test",
+    src = "debugger-app-sk_puppeteer_test.ts",
+    sk_demo_page_server = ":demo_page_server",
+    deps = [
+        ":demo_data_ts_lib",
+        "//puppeteer-tests:util_ts_lib",
+        "@npm//@types/chai",
+        "@npm//chai",
+    ],
+)
+
+karma_test(
+    name = "debugger-app-sk_test",
+    src = "debugger-app-sk_test.ts",
+    karma_config_file = "//shaders:shaders.karma.conf.js",
+    static_karma_files = [
+        "//shaders/wasm_libs:canvaskit.js",
+        "//shaders/wasm_libs:canvaskit.wasm",
+        "//shaders/wasm_libs:version.js",
+    ],
+    deps = [
+        ":debugger-app-sk",
+        ":demo_data_ts_lib",
+        "//infra-sk/modules:test_util_ts_lib",
+        "@npm//@types/chai",
+        "@npm//@types/codemirror",
+        "@npm//chai",
+        "@npm//codemirror",
+        "@npm//common-sk",
+    ],
+)
+
+ts_library(
+    name = "demo_data_ts_lib",
+    srcs = ["demo_data.ts"],
+    visibility = ["//visibility:public"],
+    deps = ["//shaders/modules/debug-trace/generate:debug-trace-quicktype_ts_lib"],
+)

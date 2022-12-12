@@ -1,0 +1,33 @@
+load("//bazel/go:go_test.bzl", "go_test")
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "datakitchensink",
+    srcs = ["kitchensink.go"],
+    data = glob(["img/*"]),
+    importpath = "go.skia.org/infra/golden/go/sql/datakitchensink",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//go/paramtools",
+        "//go/repo_root",
+        "//golden/go/sql/databuilder",
+        "//golden/go/sql/schema",
+        "//golden/go/types",
+    ],
+)
+
+go_test(
+    name = "datakitchensink_test",
+    srcs = ["kitchensink_test.go"],
+    data = glob(["img/**"]),
+    deps = [
+        ":datakitchensink",
+        "//go/paramtools",
+        "//golden/go/sql",
+        "//golden/go/sql/schema",
+        "//golden/go/sql/sqltest",
+        "//golden/go/types",
+        "@com_github_stretchr_testify//assert",
+        "@com_github_stretchr_testify//require",
+    ],
+)

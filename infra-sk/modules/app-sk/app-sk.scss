@@ -1,0 +1,175 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,400i,700,700i');
+@import 'node_modules/elements-sk/themes/color-palette.scss';
+@import 'node_modules/elements-sk/themes/themes.scss';
+
+/*
+
+To style app-sk you can change the values of the CSS variables:
+
+
+  app-sk {
+    --header-background-color: #5ba17f;
+    --sidebar-width: 250px;
+  }
+
+Note that app-sk will inherit from body so the above variables will
+over-ride the defaults regardless of the processing order of the CSS files.
+
+*/
+
+// The mobile breakpoint determines the maximum screen width where a mobile layout should be used.
+// The chosen value corresponds to the smallest "small" window size as per
+// https://material.io/archive/guidelines/layout/responsive-ui.html.
+//
+// Note that custom CSS properties cannot be used in media queries (see
+// https://stackoverflow.com/questions/40722882/css-native-variables-not-working-in-media-queries),
+// so we must define the mobile breakpoint as a Sass variable.
+$mobile-breakpoint: 600px;
+
+body {
+  --sidebar-width: 200px;
+  --sidebar-horiz-padding: 5px;
+  --sidebar-background-color: var(--surface-1dp, var(--black));
+  --sidebar-border-color: var(--on-surface, var(--black));
+
+  --header-height: 50px;
+  --header-background-color: var(--surface, var(--black));
+  --header-font-color: var(--primary, var(--white));
+  --header-horiz-padding: 16px;
+  --header-border-color: var(--primary, var(--white));
+
+  --content-horiz-padding: 5px;
+  --content-vert-padding: 0px;
+
+  --footer-height: 0;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Roboto', sans-serif;
+}
+
+app-sk {
+  color: var(--on-background, var(--black));
+  fill: var(--on-background, var(--black));
+  background: var(--background, var(--white));
+  display: grid;
+  grid-template-columns: var(--sidebar-width) 1fr;
+  grid-template-rows: var(--header-height) 1fr var(--footer-height);
+}
+
+app-sk > {
+  header {
+    background: var(--header-background-color);
+    padding: 0 var(--header-horiz-padding);
+    display: flex;
+    flex-flow: row;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--header-font-color);
+    fill: var(--header-font-color);
+    min-height: 48px;
+    border-bottom: solid 1px var(--header-border-color);
+    gap: 8px;
+
+    grid-column: 1 / span 2;
+    grid-row: 1;
+
+    // Eliminate all margins since spacing is done via gap.
+    > * {
+      margin: 0;
+    }
+
+    h1,
+    h2 {
+      font-weight: 400;
+      font-size: 20px;
+    }
+
+    login-sk .email,
+    login-sk .logInOut {
+      color: var(--header-font-color);
+      fill: var(--header-font-color);
+    }
+  }
+
+  aside {
+    border-right: 1px solid var(--sidebar-border-color);
+    padding: 0 var(--sidebar-horiz-padding);
+    z-index: 2;
+    background-color: var(--sidebar-background-color);
+    color: var(--secondary);
+    fill: var(--secondary);
+
+    min-height: calc(100vh - var(--header-height));
+
+    svg.icon-sk-svg {
+      color: var(--on-surface);
+      fill: var(--on-surface);
+    }
+
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  main {
+    padding: var(--content-vert-padding) var(--content-horiz-padding);
+    grid-row: 2;
+  }
+
+  footer {
+    grid-area: footer;
+
+    grid-column: 1 / span 2;
+    grid-row: 3;
+  }
+
+  header > .toggle-button {
+    margin: 0;
+    padding: 0;
+  }
+
+  @media screen and (min-width: $mobile-breakpoint) {
+    header > .toggle-button {
+      display: none;
+    }
+
+    main {
+      grid-column: 2;
+    }
+  }
+
+  @media screen and (max-width: $mobile-breakpoint) {
+    header > .toggle-button {
+      display: block;
+      background-color: transparent;
+      border: none;
+    }
+
+    /* Hide the sidebar just off screen. Then, when it is toggled on and off,
+       the transitions will make it slide between the two states. */
+    aside {
+      position: relative;
+      left: calc(
+        -1 * (var(--sidebar-width) + 2 * var(--sidebar-horiz-padding))
+      );
+      transition: 0.5s;
+    }
+
+    aside.shown {
+      left: 0;
+      transition: 0.5s;
+    }
+
+    main {
+      grid-column: 1 / span 2;
+    }
+  }
+}
+
+app-sk {
+  .spacer {
+    flex-grow: 1;
+  }
+}

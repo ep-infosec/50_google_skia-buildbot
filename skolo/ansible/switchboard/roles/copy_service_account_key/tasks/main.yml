@@ -1,0 +1,27 @@
+- name:
+    make temp directory for service account key and trigger `clean_up_tempfile`.
+  delegate_to: 127.0.0.1
+  tempfile:
+    state: directory
+  register: service_account_key
+  notify: clean_up_tempfile
+
+- name: Extract service account key
+  delegate_to: 127.0.0.1
+  command:
+    argv:
+      - '{{ all.repo_root }}/kube/secrets/get-secret-at-path.sh'
+      - etc
+      - '{{ copy_service_account_key__name }}'
+      - '.data."key.json"'
+      - '{{ service_account_key.path }}/application_default_credentials.json'
+    creates:
+      '{{ service_account_key.path }}/application_default_credentials.json'
+
+- name: Copy service account key posix.
+  import_tasks: posix.yml
+  when: ansible_facts['system']|lower in ['linux', 'darwin']
+
+- name: Copy service account key win.
+  import_tasks: win.yml
+  when: ansible_facts['system']|lower == 'win32nt'

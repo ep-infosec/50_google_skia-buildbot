@@ -1,0 +1,50 @@
+- name: Copy over executable.
+  become: true
+  get_url:
+    url:
+      "http://metadata:{{ all.jumphost_file_server
+      }}/test_machine_monitor/build/{{ ansible_facts['system'] }}/{{
+      ansible_facts['architecture'] }}/test_machine_monitor"
+    dest: /usr/local/bin/test_machine_monitor
+
+- name: Set test_machine_monitor permissions.
+  become: true
+  file:
+    path: /usr/local/bin/test_machine_monitor
+    owner: root
+    group: root
+    mode: 0755
+
+- name: Check that ~chrome-bot/.config/autostart/swarming.desktop exists
+  stat:
+    path: ~chrome-bot/.config/autostart/swarming.desktop
+  register: swarming_desktop_stat
+
+- name: Clean up old way of launching swarming
+  copy:
+    src: files/swarming.desktop
+    dest: ~chrome-bot/.config/autostart/swarming.desktop
+    owner: chrome-bot
+    group: chrome-bot
+    mode: 0644
+  when:
+    install_test_machine_monitor__start_swarming and
+    swarming_desktop_stat.stat.exists
+
+- name: Copy over service file.
+  become: true
+  template:
+    src: templates/test_machine_monitor.service
+    dest: /etc/systemd/system/test_machine_monitor.service
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Start systemd servce.
+  become: true
+  systemd:
+    enabled: true
+    # Do not force a restart, we'll just pick up the new version on reboot.
+    state: started
+    name: test_machine_monitor
+    daemon_reload: true

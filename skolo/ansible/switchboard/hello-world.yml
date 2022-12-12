@@ -1,0 +1,10 @@
+- hosts: jumphosts
+  user: chrome-bot
+  gather_facts: false
+
+  tasks:
+    - name: Print out hostname
+      command: hostname
+
+    - name: Print out current user (chrome-bot)
+      command: whoami

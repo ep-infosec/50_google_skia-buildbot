@@ -1,0 +1,16 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "assertdeep",
+    srcs = ["assertdeep.go"],
+    importpath = "go.skia.org/infra/go/deepequal/assertdeep",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//go/deepequal",
+        "//go/sklog",
+        "//go/sktest",
+        "@com_github_davecgh_go_spew//spew",
+        "@com_github_pmezard_go_difflib//difflib",
+        "@com_github_stretchr_testify//require",
+    ],
+)

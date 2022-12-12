@@ -1,0 +1,122 @@
+@import '../styles.scss';
+
+.body-sk status-sk {
+  app-sk {
+    --sidebar-width: auto;
+    --sidebar-horiz-padding: 0;
+    --content-horiz-padding: 5px;
+    --content-vert-padding: 5px;
+    --header-background-color: var(--success-alpha);
+    --header-border-color: var(--success-alpha);
+    --header-font-color: var(--on-success);
+
+    header {
+      a {
+        color: var(--on-success);
+      }
+    }
+
+    aside {
+      background-color: var(--background);
+      border: none;
+      z-index: 2;
+      > * {
+        background-color: var(--background);
+        border: 1px solid var(--surface-1dp);
+        padding: 1px;
+        margin: 5px;
+      }
+
+      .collapser {
+        border-top: none;
+        border-left: none;
+        border-right: none;
+        border-bottom-color: var(--surface-1dp);
+        width: 100%;
+        text-transform: none;
+        padding: 0 0.5em 0 0;
+        margin: 0;
+        height: auto;
+
+        // We don't want icons interferring with the button click.
+        * {
+          pointer-events: none;
+        }
+      }
+
+      .table {
+        width: 100%;
+      }
+    }
+
+    a:active,
+    a:visited,
+    a:link {
+      color: var(--on-surface);
+    }
+
+    a:hover {
+      color: var(--on-primary);
+    }
+
+    // TODO(westont): Make table row underlays non-interactive overlays so as to avoid z-index
+    // difficulties on everything else.
+    footer {
+      z-index: 3;
+    }
+
+    login-sk *,
+    tree-status-sk * {
+      color: var(--header-font-color) !important;
+    }
+  }
+}
+
+// Coloring for tree-status.
+status-sk[state='caution'] app-sk header {
+  background-color: var(--warning-alpha);
+  color: var(--on-warning);
+  fill: var(--on-warning);
+  a {
+    color: var(--on-warning);
+  }
+}
+
+status-sk[state='closed'] app-sk header {
+  background-color: var(--failure-alpha);
+  color: var(--on-failure);
+  fill: var(--on-failure);
+  a {
+    color: var(--on-failure);
+  }
+}
+
+aside {
+  .table {
+    .tr:hover {
+      background-color: var(--primary);
+      color: var(--on-primary);
+      fill: var(--on-primary);
+
+      // Inherited color of the underline needs to be overridden so we don't end up with e.g. black
+      // text with white underline.
+      .value {
+        background-color: var(--surface);
+        color: var(--on-surface);
+        text-decoration: underline;
+      }
+    }
+
+    .value {
+      background-color: var(--secondary);
+      color: var(--on-secondary);
+      border-radius: 3px;
+      padding: 4px;
+      margin: 5px;
+    }
+
+    svg {
+      fill: var(--secondary);
+    }
+  }
+}

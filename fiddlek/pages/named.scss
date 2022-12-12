@@ -1,0 +1,12 @@
+@import '../../infra-sk/themes.scss';
+
+.body-sk {
+  padding: 0;
+  margin: 0;
+  --sidebar-width: 0;
+  --header-horiz-padding: 16px;
+
+  h1 {
+    opacity: var(--text-intensity-medium);
+  }
+}

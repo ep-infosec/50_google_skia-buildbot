@@ -1,0 +1,24 @@
+@import 'node_modules/elements-sk/themes/color-palette.scss';
+
+list-page-sk {
+  table {
+    width: 95%;
+    border-collapse: collapse;
+
+    td {
+      border: 1px solid var(--grey-400);
+    }
+
+    td.center {
+      text-align: center;
+    }
+  }
+
+  .query_params {
+    display: flex;
+
+    > * {
+      margin: auto 5px;
+    }
+  }
+}

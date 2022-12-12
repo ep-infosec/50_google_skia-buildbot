@@ -1,0 +1,34 @@
+load("//bazel/go:go_test.bzl", "go_test")
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "mockhttpclient",
+    srcs = [
+        "muxclient.go",
+        "urlmock.go",
+    ],
+    importpath = "go.skia.org/infra/go/mockhttpclient",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//go/sklog",
+        "//go/util",
+        "@com_github_gorilla_mux//:mux",
+        "@com_github_stretchr_testify//assert",
+        "@com_github_stretchr_testify//require",
+        "@com_github_texttheater_golang_levenshtein//levenshtein",
+    ],
+)
+
+go_test(
+    name = "mockhttpclient_test",
+    srcs = [
+        "muxclient_test.go",
+        "urlmock_test.go",
+    ],
+    embed = [":mockhttpclient"],
+    deps = [
+        "//go/util",
+        "@com_github_gorilla_mux//:mux",
+        "@com_github_stretchr_testify//require",
+    ],
+)

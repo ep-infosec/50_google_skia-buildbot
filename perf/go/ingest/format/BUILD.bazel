@@ -1,0 +1,28 @@
+load("//bazel/go:go_test.bzl", "go_test")
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "format",
+    srcs = [
+        "format.go",
+        "leagacyformat.go",
+    ],
+    embedsrcs = ["formatSchema.json"],
+    importpath = "go.skia.org/infra/perf/go/ingest/format",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//go/jsonschema",
+        "//go/skerr",
+        "//perf/go/types",
+    ],
+)
+
+go_test(
+    name = "format_test",
+    srcs = ["format_test.go"],
+    embed = [":format"],
+    deps = [
+        "@com_github_stretchr_testify//assert",
+        "@com_github_stretchr_testify//require",
+    ],
+)

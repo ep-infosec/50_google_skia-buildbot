@@ -1,0 +1,15 @@
+- name: Run caffeinate at startup to prevent sleep.
+  become: true
+  copy:
+    src: files/org.skia.caffeinated.plist
+    dest: /Library/LaunchAgents/
+    owner: root
+    group: wheel
+    mode: 0644
+
+- name: Run caffeinate now so we don't need to reboot.
+  command: launchctl load /Library/LaunchAgents/org.skia.caffeinated.plist
+  become: true
+
+- name: Disable screensaver
+  command: defaults -currentHost write com.apple.screensaver idleTime 0

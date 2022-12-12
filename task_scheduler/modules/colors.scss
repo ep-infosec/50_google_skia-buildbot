@@ -1,0 +1,95 @@
+/* Common colors via CSS Variables.
+   Assumes use of infra-sk/modules/theme-chooser-sk.
+
+ Can be imported via:
+
+    @import '../colors';
+*/
+@import 'node_modules/elements-sk/themes/color-palette.scss';
+@import 'node_modules/elements-sk/themes/themes.scss';
+
+:root {
+  --primary: var(--blue-grey-600);
+  --on-primary: var(--white);
+  --primary-variant: rgb(204, 204, 255);
+  --on-primary-variant: var(--black);
+  --link-color: hsl(199, 70%, 40%);
+
+  --color-canceled: rgb(117, 112, 179);
+  --color-failure: rgb(217, 95, 2);
+  --color-in-progress: rgb(248, 230, 180);
+  --color-mishap: rgb(117, 112, 179);
+  --color-success: rgb(209, 228, 188);
+}
+.darkmode {
+  --grey-850: #303030;
+  --primary: var(--blue-grey-600);
+  --on-primary: var(--white);
+  --primary-variant: rgb(204, 204, 255);
+  --on-primary-variant: var(--black);
+  --background: var(--grey-900);
+  --on-background: var(--grey-300);
+  --surface: var(--grey-850);
+  --on-surface: var(--grey-200);
+  --error: var(--amber-900);
+  --link-color: hsl(199, 70%, 40%);
+}
+
+a,
+a.visited {
+  color: var(--link-color);
+}
+
+.darkmode input {
+  background-color: var(--surface-2dp);
+  color: var(--on-surface);
+}
+
+:disabled {
+  opacity: var(--text-intensity-medium);
+}
+
+/* Background and foreground colors. */
+.bg-canceled {
+  background-color: var(--color-canceled);
+  fill: var(--color-canceled);
+}
+.bg-failure {
+  background-color: var(--color-failure);
+  fill: var(--color-failure);
+}
+.bg-in-progress {
+  background-color: var(--color-in-progress);
+  fill: var(--color-in-progress);
+  /* It's hard to see white on yellow, so invert the color. */
+  color: black;
+}
+.bg-mishap {
+  background-color: var(--color-mishap);
+  fill: var(--color-mishap);
+}
+.bg-success {
+  background-color: var(--color-success);
+  fill: var(--color-success);
+}
+
+.fg-canceled {
+  color: var(--color-canceled);
+  fill: var(--color-canceled);
+}
+.fg-failure {
+  color: var(--color-failure);
+  fill: var(--color-failure);
+}
+.fg-in-progress {
+  color: var(--color-in-progress);
+  fill: var(--color-in-progress);
+}
+.fg-mishap {
+  color: var(--color-mishap);
+  fill: var(--color-mishap);
+}
+.fg-success {
+  color: var(--color-success);
+  fill: var(--color-success);
+}
